@@ -1,0 +1,5 @@
+// Id (auto)
+// service (fk) 
+// client id (fk user) (from session, booking time and length)
+// booking time (booking page)
+// booking length (booking page)
