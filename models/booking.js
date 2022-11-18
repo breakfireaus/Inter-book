@@ -22,6 +22,7 @@ booking.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
     client_id: {
       type: DataTypes.INTEGER,
       //Foreign Key
@@ -32,20 +33,20 @@ booking.init(
     },
 
     service_id: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'service',
-          key: 'id',
-        },
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'service',
+        key: 'id',
       },
+    },
   },
   {
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product',
+    modelName: 'booking',
   }
 );
 
