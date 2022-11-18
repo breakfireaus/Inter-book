@@ -13,7 +13,7 @@ booking.init(
       autoIncrement: true,
     },
 
-    bookingtime: {
+    booking_time: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -51,7 +51,4 @@ booking.init(
 );
 
 module.exports = booking;
-// service (fk)
-// client id (fk user) (from session, booking time and length)
-// booking time (booking page)
-// booking length (booking page)
+
