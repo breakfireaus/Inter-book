@@ -100,3 +100,6 @@ router.put("/update", withAuth, async (req, res) => {
 
 
 });
+
+
+module.exports = router;
