@@ -58,3 +58,46 @@ router.post("/logout", (req, res) => {
     }
 });
 
+
+router.put("/update", withAuth, async (req, res) => {
+    try {
+        // If request contains none of the updatable fields of password, description or industry
+        if (
+            !req.body.password &&
+            !req.body.description &&
+            !req.body.industry
+        ) {
+            res.status(400).json({ message: "No updatable fields in request. Please include either a password, description or industry in request body" });
+            return;
+        }
+
+        //TODO: Update once a decision has been made on industries - currently setup for n:M
+        // const industries = UserIndustry.findAll({where: { user_id: req.session.user_id}}); 
+
+        // for(const industry of industries){
+        //     //Do something
+        // }
+
+
+        //TODO: likely need input sanistiation here
+
+        // User hook should hash the password before update
+        //TODO: test the functionality of password hashing via hook. This may need for the hook to be explicitly called.
+        await User.update(req.body, {
+            where: {
+                id: req.session.user_id,
+            },
+        });
+
+        res.status(200).json({
+            message: "Successfully updated user details",
+        });
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(500).json({ message: "An internal server error occured" });
+    }
+
+
+});
