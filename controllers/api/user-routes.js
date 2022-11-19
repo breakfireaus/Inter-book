@@ -1,6 +1,63 @@
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, Industry } = require("../../models");
 
+
+router.post("/create", async (req, res) => {
+    try {
+        // If the body is missing any one of these items, return
+        if (
+            !req.body.email ||
+            !req.body.password ||
+            !req.body.description ||
+            !req.body.industry
+        ) {
+            res.status(400).json({
+                message: "Please include email, password, description and industry in request body",
+            });
+            return;
+        }
+
+        const existingUser = User.findAll({ where: { email: req.body.email }});
+
+        if (existingUser){
+            res.status(400).json({
+                message: "A user with this email already exists",
+            });
+            return;
+        }
+
+        const { email, password, description, industry } = req.body;
+
+        //TODO: Likely need some validation/sanitisation here
+
+        //Assumes industry is an ID value. This will need to change if we decide to make this n:M this will need to be changed
+        const newUser = await User.create({
+            email: email,
+            password: password,
+            description: description,
+            industry: industry,
+        });
+
+        if (!newUser){
+            res.status(500).json({
+                message: "Something went wrong in user creation",
+            });
+            return;
+        } else {
+            //If n:M relationship, logic for creating the n:M relationships goes here
+            res.status(201).json({
+                message: "User successfully created",
+            });
+        }
+
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: "An internal server error occurred",
+        });
+    }
+});
 
 router.post("/login", async (req, res) => {
     try {
@@ -82,6 +139,7 @@ router.put("/update", withAuth, async (req, res) => {
 
         // User hook should hash the password before update
         //TODO: test the functionality of password hashing via hook. This may need for the hook to be explicitly called.
+        // This will also need to be changed if we decide to make industry a n:M relationship
         await User.update(req.body, {
             where: {
                 id: req.session.user_id,
