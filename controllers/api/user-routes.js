@@ -129,6 +129,9 @@ router.put("/update", withAuth, async (req, res) => {
             return;
         }
 
+        //Pull values off the body so they can be operated on for validation
+        const validationObject = {...req.body};
+
         //TODO: Update once a decision has been made on industries - currently setup for n:M
         // const industries = UserIndustry.findAll({where: { user_id: req.session.user_id}}); 
 
@@ -142,7 +145,7 @@ router.put("/update", withAuth, async (req, res) => {
         // User hook should hash the password before update
         //TODO: test the functionality of password hashing via hook. This may need for the hook to be explicitly called.
         // This will also need to be changed if we decide to make industry a n:M relationship
-        await User.update(req.body, {
+        await User.update({...validationObject}, {
             where: {
                 id: req.session.user_id,
             },
