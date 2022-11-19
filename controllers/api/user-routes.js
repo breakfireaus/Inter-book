@@ -1,3 +1,5 @@
+//Currently these routes return information in JSON to the invoker, this can farily easily be switched to render pages server side if we want to go down that path also. 
+
 const router = require("express").Router();
 const { User, Industry } = require("../../models");
 
