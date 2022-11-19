@@ -127,3 +127,5 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
         });
     }
 });
+
+module.exports = router;
