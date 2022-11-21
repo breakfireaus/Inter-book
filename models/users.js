@@ -19,6 +19,17 @@ industry.init(
       autoIncrement: true,
     },
 
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    
+
     //Email address (signup)
     email: {
       type: DataTypes.STRING,
