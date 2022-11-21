@@ -2,7 +2,7 @@ const Booking = require('./booking');
 const Industry = require('./industry');
 const Service = require('./service');
 const User = require('./user');
-const UserIndustry = require('./userIndustry')
+const UserIndustry = require('./userIndustry');
 
 User.hasMany(Service, {
   foreignKey: 'id',
@@ -25,7 +25,7 @@ Booking.belongsTo(User, {
 
 //one booking to one user
 Booking.hasOne(User, {
-  foreignKey: 'id'
+  foreignKey: 'id',
 });
 
 User.belongsTo(Booking, {
@@ -51,9 +51,8 @@ users.belongsToMany(Industry, {
   // Define the third table needed to store the foreign keys
   through: {
     model: UserIndustry,
-    unique: false
+    unique: false,
   },
-})
+});
 
-
-module.exports = { User, UserIndustry , Booking, Service, Industry };
+module.exports = { User, UserIndustry, Booking, Service, Industry };
