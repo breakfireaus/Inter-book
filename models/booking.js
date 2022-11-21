@@ -18,7 +18,6 @@ Booking.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-   
 
     client_id: {
       type: DataTypes.INTEGER,
@@ -48,4 +47,3 @@ Booking.init(
 );
 
 module.exports = Booking;
-

@@ -9,9 +9,6 @@ const sequelize = require('../config/connection.js');
 
 class User extends Model {}
 
-
-
-
 User.init(
   {
     // user id (auto)

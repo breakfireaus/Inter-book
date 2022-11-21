@@ -1,4 +1,3 @@
-
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
@@ -27,7 +26,6 @@ Industry.init(
     underscored: true,
     modelName: 'Industry',
   }
-  );
+);
 
-  module.exports = Industry;
-
+module.exports = Industry;
