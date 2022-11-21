@@ -1,9 +1,4 @@
 
-
-
-
-//hourly cost (list service page)
-//short description(list service page)
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
@@ -25,11 +20,9 @@ Service.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    //availability
-    availability: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+
+    //service start to do
+    //service end to do
 
     //industry (fk)
     industry: {

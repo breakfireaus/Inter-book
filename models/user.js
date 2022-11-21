@@ -1,7 +1,8 @@
+//todo: import bcrypt to hash the words before create and before update hook for passwords
+//class method to compare password to hash
+//refer to bcrypt documentation and class materials
 
 
-//Industry (update profile page)(FK)
-//services offered( related to services 1:M)
 
 const { Model, DataTypes } = require('sequelize');
 
@@ -34,6 +35,9 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate:{
+        isEmail: true
+      }
     },
 
     //Password
@@ -60,6 +64,9 @@ User.init(
   },
 
   {
+    hooks: {
+
+    },
     sequelize,
     timestamps: false,
     freezeTableName: true,

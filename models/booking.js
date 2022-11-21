@@ -13,15 +13,9 @@ Booking.init(
       autoIncrement: true,
     },
 
-    booking_time: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    booking_type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    //cancelled
+    //confirmed boolean
+    //default value false
 
     client_id: {
       type: DataTypes.INTEGER,
