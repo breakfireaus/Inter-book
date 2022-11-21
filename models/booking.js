@@ -14,8 +14,11 @@ Booking.init(
     },
 
     //cancelled
-    //confirmed boolean
-    //default value false
+    cancelled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+   
 
     client_id: {
       type: DataTypes.INTEGER,

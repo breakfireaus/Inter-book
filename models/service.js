@@ -1,4 +1,3 @@
-
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
@@ -15,46 +14,55 @@ Service.init(
       autoIncrement: true,
     },
 
-    //title of service 
+    //title of service
     service_title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
-    //service start to do
+    //service start
+    service_start: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     //service end to do
+    service_end: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
     //industry (fk)
     industry: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'industry',
-          key: 'id',
-        },
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'industry',
+        key: 'id',
+      },
     },
 
     //freelancer(fk) (list service page)
     user_id: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'user',
-          key: 'id',
-        },
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'user',
+        key: 'id',
+      },
 
-    //hourly rate (list service page)
-    hourly_rate: {
+      //hourly rate (list service page)
+      hourly_rate: {
         type: DataTypes.DECIMAL,
         allowNull: false,
-        },
+      },
 
-    //short description(list service page)
-    service_desc: {
+      //short description(list service page)
+      service_desc: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        }, 
-    }
+      },
+    },
   },
 
   {
@@ -64,6 +72,6 @@ Service.init(
     underscored: true,
     modelName: 'Service',
   }
-  );
+);
 
-  module.exports = Service;
+module.exports = Service;
