@@ -1,17 +1,17 @@
-const booking = require('./booking');
-const industry = require('./industry');
-const services = require('./service');
-const user = require('./users');
+const Booking = require('./booking');
+const Industry = require('./industry');
+const Services = require('./service');
+const User = require('./user');
 
 
       
 
-user.hasMany(services, {
+User.hasMany(services, {
     foreignKey: 'id',
     onDelete: 'CASCADE',
   });
   
-booking.belongsTo(users, {
+Booking.belongsTo(users, {
     foreignKey: 'id',
   });
 

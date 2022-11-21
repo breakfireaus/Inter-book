@@ -7,9 +7,9 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
-class users extends Model {}
+class User extends Model {}
 
-industry.init(
+User.init(
   {
     // user id (auto)
     id: {
@@ -53,7 +53,7 @@ industry.init(
         type: DataTypes.INTEGER,
         //Foreign Key
         references: {
-          model: 'industry',
+          model: 'User',
           key: 'id',
         },
     },
@@ -64,9 +64,9 @@ industry.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'industry',
+    modelName: 'User',
   }
   );
 
-  module.exports = industry;
+  module.exports = User;
 

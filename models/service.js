@@ -8,9 +8,9 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
-class service extends Model {}
+class Service extends Model {}
 
-service.init(
+Service.init(
   {
     //id (auto unique)
     id: {
@@ -42,11 +42,11 @@ service.init(
     },
 
     //freelancer(fk) (list service page)
-    freelancer: {
+    user_id: {
         type: DataTypes.INTEGER,
         //Foreign Key
         references: {
-          model: 'users',
+          model: 'user',
           key: 'id',
         },
 
@@ -69,8 +69,8 @@ service.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'service',
+    modelName: 'Service',
   }
   );
 
-  module.exports = service;
+  module.exports = Service;
