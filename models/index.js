@@ -41,8 +41,19 @@ Service.belongsTo(Booking, {
   foreignKey: 'id',
 });
 //todo: one service can have many booking
-//todo: many users to many industry
+Service.hasMany(Booking, {
+  foreignKey: 'id',
+  onDelete: 'CASCADE',
+});
 
-//todo: junction table for many to many relationship sql how to do it on sequelize, industry users table
+//todo: many users to many industry
+users.belongsToMany(Industry, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: UserIndustry,
+    unique: false
+  },
+})
+
 
 module.exports = { User, UserIndustry , Booking, Service, Industry };
