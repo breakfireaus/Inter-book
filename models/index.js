@@ -2,6 +2,7 @@ const Booking = require('./booking');
 const Industry = require('./industry');
 const Service = require('./service');
 const User = require('./user');
+const UserIndustry = require('./userIndustry')
 
 User.hasMany(Service, {
   foreignKey: 'id',
@@ -19,4 +20,4 @@ Service.belongsTo(User, {
 //todo: one service can have many booking
 //todo: many users to many industry
 
-module.exports = { User, Booking, Service, Industry };
+module.exports = { User, UserIndustry , Booking, Service, Industry };
