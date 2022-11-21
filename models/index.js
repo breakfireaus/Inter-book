@@ -23,7 +23,7 @@ Booking.belongsTo(User, {
   foreignKey: 'id',
 });
 
-//todo: one booking to one user
+//one booking to one user
 Booking.hasOne(User, {
   foreignKey: 'id'
 });
@@ -32,7 +32,7 @@ User.belongsTo(Booking, {
   foreignKey: 'id',
 });
 
-//todo: one booking to one service
+//one booking to one service
 Booking.hasOne(Service, {
   foreignKey: 'id',
 });
@@ -40,13 +40,13 @@ Booking.hasOne(Service, {
 Service.belongsTo(Booking, {
   foreignKey: 'id',
 });
-//todo: one service can have many booking
+//one service can have many booking
 Service.hasMany(Booking, {
   foreignKey: 'id',
   onDelete: 'CASCADE',
 });
 
-//todo: many users to many industry
+//many users to many industry
 users.belongsToMany(Industry, {
   // Define the third table needed to store the foreign keys
   through: {
