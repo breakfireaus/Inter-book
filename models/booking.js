@@ -21,7 +21,7 @@ Booking.init(
       type: DataTypes.INTEGER,
       //Foreign Key
       references: {
-        model: 'users',
+        model: 'user',
         key: 'id',
       },
     },

@@ -1,14 +1,16 @@
+const bcrypt = require('bcrypt');
 //todo: import bcrypt to hash the words before create and before update hook for passwords
-//class method to compare password to hash
+
 //refer to bcrypt documentation and class materials
-
-
 
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
 class User extends Model {}
+
+
+
 
 User.init(
   {
@@ -29,43 +31,54 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    
 
     //Email address (signup)
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
-        isEmail: true
-      }
+      validate: {
+        isEmail: true,
+      },
     },
 
     //Password
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     //Description (update profile page)
     description: {
-        type: DataTypes.TEXT('long'),
-        allowNull: false,
-      },
-    
+      type: DataTypes.TEXT('long'),
+      allowNull: false,
+    },
+
     //Industry (update profile page)(FK)
     industry: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'User',
-          key: 'id',
-        },
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'User',
+        key: 'id',
+      },
     },
   },
 
   {
     hooks: {
-
+      beforeCreate: async (newUserData) => {
+        newUserData.password = await bcrypt.hash(newUserData.password, 10);
+        return newUserData;
+      },
+      beforeUpdate: async (updatedUserData) => {
+        if (updatedUserData.password) {
+          updatedUserData.password = await bcrypt.hash(
+            updatedUserData.password,
+            10
+          );
+        }
+        return updatedUserData;
+      },
     },
     sequelize,
     timestamps: false,
@@ -73,7 +86,6 @@ User.init(
     underscored: true,
     modelName: 'User',
   }
-  );
+);
 
-  module.exports = User;
-
+module.exports = User;

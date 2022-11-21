@@ -1,6 +1,4 @@
-//id (autoincrement)
-//userid (fk)
-//industry id (fk)
+
 
 const { Model, DataTypes } = require('sequelize');
 
@@ -10,6 +8,7 @@ class UserIndustry extends Model {}
 
 UserIndustry.init(
   {
+    //id (autoincrement)
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -17,6 +16,7 @@ UserIndustry.init(
       autoIncrement: true,
     },
 
+    //userid (fk)
     user_id: {
       type: DataTypes.INTEGER,
       //Foreign Key
@@ -26,6 +26,7 @@ UserIndustry.init(
       },
     },
 
+    //industry id (fk)
     industry_id: {
       type: DataTypes.INTEGER,
       //Foreign Key
