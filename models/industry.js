@@ -24,7 +24,7 @@ Industry.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'Industry',
+    modelName: 'industry',
   }
 );
 
