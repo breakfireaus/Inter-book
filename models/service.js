@@ -22,14 +22,30 @@ Service.init(
 
     //service start
     service_start: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
+      validate: {
+        customValidator(value) {
+          if (new Date(value) < new Date()) {
+            throw new Error("invalid date");
+          }
+        },
+      },
     },
+    
+    
 
     //service end to do
     service_end: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
+      validate: {
+        customValidator(value) {
+          if (new Date(value) < new Date()) {
+            throw new Error("invalid date");
+          }
+        },
+      },
     },
 
     //industry (fk)

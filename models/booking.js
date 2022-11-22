@@ -16,6 +16,13 @@ Booking.init(
     //cancelled
     cancelled: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+
+    confirmed:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: false,
     },
 

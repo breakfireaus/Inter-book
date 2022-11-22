@@ -42,22 +42,13 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      len: [8,12],
     },
 
     //Description (update profile page)
     description: {
       type: DataTypes.TEXT('long'),
       allowNull: false,
-    },
-
-    //Industry (update profile page)(FK)
-    industry: {
-      type: DataTypes.INTEGER,
-      //Foreign Key
-      references: {
-        model: 'User',
-        key: 'id',
-      },
     },
   },
 

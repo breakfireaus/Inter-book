@@ -19,7 +19,7 @@ UserIndustry.init(
       type: DataTypes.INTEGER,
       //Foreign Key
       references: {
-        model: 'User',
+        model: 'user',
         key: 'id',
       },
     },
@@ -40,7 +40,7 @@ UserIndustry.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'UserIndustry',
+    modelName: 'user_Industry',
   }
 );
 
