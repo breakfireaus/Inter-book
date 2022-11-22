@@ -19,7 +19,7 @@ UserIndustry.init(
       type: DataTypes.INTEGER,
       //Foreign Key
       references: {
-        model: 'User',
+        model: 'user',
         key: 'id',
       },
     },
