@@ -40,7 +40,7 @@ UserIndustry.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'user_Industry',
+    modelName: 'user_industry',
   }
 );
 

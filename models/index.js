@@ -47,7 +47,7 @@ Service.hasMany(Booking, {
 });
 
 //many users to many industry
-users.belongsToMany(Industry, {
+User.belongsToMany(Industry, {
   // Define the third table needed to store the foreign keys
   through: {
     model: UserIndustry,
@@ -55,4 +55,11 @@ users.belongsToMany(Industry, {
   },
 });
 
+Industry.belongsToMany(User, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: UserIndustry,
+    unique: false,
+  },
+});
 module.exports = { User, UserIndustry, Booking, Service, Industry };

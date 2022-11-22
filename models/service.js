@@ -25,12 +25,8 @@ Service.init(
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        customValidator(value) {
-          if (new Date(value) < new Date()) {
-            throw new Error("invalid date");
-          }
+        isDate:true,
         },
-      },
     },
     
     
@@ -40,12 +36,8 @@ Service.init(
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        customValidator(value) {
-          if (new Date(value) < new Date()) {
-            throw new Error("invalid date");
-          }
+        isDate:true,
         },
-      },
     },
 
     //industry (fk)
@@ -86,7 +78,7 @@ Service.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'Service',
+    modelName: 'service',
   }
 );
 

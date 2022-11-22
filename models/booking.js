@@ -49,7 +49,7 @@ Booking.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'Booking',
+    modelName: 'booking',
   }
 );
 
