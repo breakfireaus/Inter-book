@@ -2,10 +2,11 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
-class Booking extends Model {}
+class UserIndustry extends Model {}
 
-Booking.init(
+UserIndustry.init(
   {
+    //id (autoincrement)
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -13,20 +14,8 @@ Booking.init(
       autoIncrement: true,
     },
 
-    //cancelled
-    cancelled: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-
-    confirmed:{
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-
-    client_id: {
+    //userid (fk)
+    user_id: {
       type: DataTypes.INTEGER,
       //Foreign Key
       references: {
@@ -35,22 +24,24 @@ Booking.init(
       },
     },
 
-    service_id: {
+    //industry id (fk)
+    industry_id: {
       type: DataTypes.INTEGER,
       //Foreign Key
       references: {
-        model: 'service',
+        model: 'industry',
         key: 'id',
       },
     },
   },
+
   {
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'booking',
+    modelName: 'user_industry',
   }
 );
 
-module.exports = Booking;
+module.exports = UserIndustry;

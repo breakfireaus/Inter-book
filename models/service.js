@@ -1,16 +1,10 @@
-
-
-
-
-//hourly cost (list service page)
-//short description(list service page)
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection.js');
 
-class service extends Model {}
+class Service extends Model {}
 
-service.init(
+Service.init(
   {
     //id (auto unique)
     id: {
@@ -20,48 +14,63 @@ service.init(
       autoIncrement: true,
     },
 
-    //title of service 
+    //title of service
     service_title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    //availability
-    availability: {
-        type: DataTypes.STRING,
-        allowNull: false,
+
+    //service start
+    service_start: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate:true,
+        },
+    },
+    
+    
+
+    //service end to do
+    service_end: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate:true,
+        },
     },
 
     //industry (fk)
     industry: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'industry',
-          key: 'id',
-        },
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'industry',
+        key: 'id',
+      },
     },
 
     //freelancer(fk) (list service page)
-    freelancer: {
-        type: DataTypes.INTEGER,
-        //Foreign Key
-        references: {
-          model: 'users',
-          key: 'id',
-        },
+    user_id: {
+      type: DataTypes.INTEGER,
+      //Foreign Key
+      references: {
+        model: 'user',
+        key: 'id',
+      },
 
-    //hourly rate (list service page)
-    hourly_rate: {
+      //hourly rate (list service page)
+      hourly_rate: {
         type: DataTypes.DECIMAL,
         allowNull: false,
-        },
+      },
 
-    //short description(list service page)
-    service_desc: {
+      //short description(list service page)
+      service_desc: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        }, 
-    }
+      },
+    },
   },
 
   {
@@ -71,6 +80,6 @@ service.init(
     underscored: true,
     modelName: 'service',
   }
-  );
+);
 
-  module.exports = service;
+module.exports = Service;
