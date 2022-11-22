@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        {{!-- Nav bar Section --}}
+        <nav class="navbar navbar-expand-lg navbar-light">
+            {{! Other additional nav bar links not required for MVP but could possibly add nva links to financials page
+            etc }}
+            <a class="navbar-brand" href="#">Inter-book</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                {{! -- Will leave template code here for future additional nav link
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+                }}
+
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search for a professional">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Search </button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+<!-- Main Profile section start --> 
+    <section>
+
+        <div class="jumbotron">
+            {{!-- User data --}}
+            <h1 class="display-4"> {{ first name }} {{ last name }}</h1>
+            {{!-- Professional Title / Industry --}}
+            <p class="lead"> {{ Industry }} </p>
+            <hr class="my-4">
+
+            {{!-- Short Description --}}
+            <p> Short Description/Bio</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button"> </a>
+            </p>
+        </div>
+    </section>
+
+    <!--- Create a service post start ---> 
+
+    <section>
+        <h3> Add a service </h3>
+
+        <form>
+            <div class="service-title">
+                <h5> Select service title </h5>
+                <select class="form-control" id="service-title">
+                    <option> Dance </option>
+                    <option> Yoga </option>
+                    <option> Drawing </option>
+                    <option> Cooking </option>
+                    <option> Video Editing </option>
+                </select>
+            </div>
+
+    {{!-- Added placeholder time slots for now , can be updated later --}}
+            <div class="Session-time">
+                <h5> Session time </h5>
+                <select multiple class="form-control" id="session-time">
+                    <option> 12:00pm - 1:00pm </option>
+                    <option> 1:00pm - 2:00pm </option>
+                    <option> 2:00pm - 3:00pm </option>
+                    <option> 3:00pm - 4:00pm </option>
+                    <option> 5:00pm - 6:00pm </option>
+                    <option> 6:00pm - 7:00pm </option>
+                </select>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1"> Time slots </label>
+            </div>
+
+            <div class="service-description">
+                <h5>Service Description</h5>
+                <textarea class="form-control" id="service-description" rows="5"></textarea>
+                <small id="emailHelp" class="form-text text-muted"> Please provide a short description</small>
+            </div>
+
+        {{!-- Placeholder payment methods --}}
+
+            <div class="payment-methods">
+                <h5 for="service-title"> Preferred Payment methods </h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="Paypal" value="option1">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Paypal
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="Bank-transfer"
+                        value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Bank Transfer
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="Bitcoin" value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Bitcoin
+                    </label>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!--- User's current Appointments --> 
+
+    {{#if bookings.length}}
+    <div class="col-md-6 project-list">
+        <h3>Current Bookings:</h3>
+
+        {{#each bookings as |booking|}}
+        <div class="row mb-2">
+            <div class="col-md-8">
+                <h4><a href="/project/{{booking.id}}">{{booking.type}}</a></h4>
+            </div>
+
+        {{!-- TO DO: Add CANCEL booking functionality --}}
+            <div class="col-md-4">
+                <button class="btn btn-sm btn-danger" data-id="{{booking.id}}">CANCEL</button>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+    </div>
+
+
+</body>
+
+</html>
