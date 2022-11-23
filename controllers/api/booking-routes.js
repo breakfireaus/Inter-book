@@ -6,7 +6,7 @@ const { Booking, User, Service } = require("../../models");
 router.get ('/', withAuth, async (req,res) => {
 try {
     const bookingData = await Booking.findAll({
-        include: [{ model: User, Service }],
+        include: [ User, Service ],
     });
     res.status(200).json(bookingData);
 } catch (err) {
