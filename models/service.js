@@ -63,11 +63,14 @@ Service.init(
       hourly_rate: {
         type: DataTypes.DECIMAL,
         allowNull: false,
+        validate:{
+          isDecimal: true, 
+        } 
       },
 
       //short description(list service page)
       service_desc: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
     },
