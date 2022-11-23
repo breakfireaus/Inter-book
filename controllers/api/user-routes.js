@@ -13,6 +13,7 @@ router.post("/create", async (req, res) => {
             !req.body.description ||
             !req.body.industry
         ) {
+            //This should be validated on the front end but I will leave it returning JSON here so that the message can be put in a text box 
             res.status(400).json({
                 message: "Please include email, password, description and industry in request body",
             });
@@ -22,9 +23,10 @@ router.post("/create", async (req, res) => {
         const existingUser = User.findAll({ where: { email: req.body.email }});
 
         if (existingUser){
-            res.status(400).json({
+            res.render("error", {
+                status: 400,
                 message: "A user with this email already exists",
-            });
+            })
             return;
         }
 
@@ -41,22 +43,38 @@ router.post("/create", async (req, res) => {
         });
 
         if (!newUser){
-            res.status(500).json({
-                message: "Something went wrong in user creation",
+            //logging can be expanded here to provide more information for troubleshooting
+            console.err(`Failed to create new user with email: ${email}`);
+            res.render("error", {
+                status: 500,
+                message: "An internal server error occurred",
+                logged_in: req.session.logged_in,
             });
             return;
         } else {
             //If n:M relationship, logic for creating the n:M relationships goes here
-            res.status(201).json({
-                message: "User successfully created",
+
+            //Save the session details
+            req.session.save(() => {
+                req.session.user_id = userData.id;
+                req.session.logged_in = true;
             });
+            //redirect to the dashboard once logged on
+            res.render("dashboard", {
+                logged_in: req.session.logged_in,
+                first_name: newUser.first_name,
+                last_name: newUser.last_name,
+                
+            })
         }
 
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({
+        res.render("error", {
+            status: 500,
             message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
         });
     }
 });
@@ -75,7 +93,10 @@ router.post("/login", async (req, res) => {
         const validPassword = await userData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res.status(400).json({ message: "Incorrect email or password" });
+            res.render("signin", { 
+                status: 401,
+                message: "Incorrect email or password" 
+            });
             return;
         }
 
@@ -85,6 +106,10 @@ router.post("/login", async (req, res) => {
         });
 
         //May need to return some information to the front end. This will need to be sanitised from the userData object as this should not be returned in raw format to the front end.
+        res.render("dashboard", {
+            logged_in: req.session.logged_in,
+            //TODO: Determine what data needs to be returned to the dashboard template
+        })
         res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
         // this may need to be removed after deployment to heroku.
@@ -92,7 +117,11 @@ router.post("/login", async (req, res) => {
         // https://devcenter.heroku.com/articles/logging
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occurred" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
     }
 
 });
@@ -103,15 +132,21 @@ router.post("/logout", (req, res) => {
         // If session logged in then destroy the session, else return session not found.
         if (req.session.logged_in) {
             req.session.destroy(() => {
-                res.status(204).end();
+                //render the login page
+                res.render("signin");
             });
         } else {
-            res.status(404).end();
+            //session has already been destroyed by timeout or other mechanism
+            res.render("signin");
         }
     } catch (err) {
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occurred" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
 
     }
 });
@@ -125,6 +160,7 @@ router.put("/update", withAuth, async (req, res) => {
             !req.body.description &&
             !req.body.industry
         ) {
+            //This validation will be done on the front end, returning JSON here so it can be displayed as a message 
             res.status(400).json({ message: "No updatable fields in request. Please include either a password, description or industry in request body" });
             return;
         }
@@ -151,14 +187,22 @@ router.put("/update", withAuth, async (req, res) => {
             },
         });
 
-        res.status(200).json({
+        //TODO: get the valid information about the users profile 
+        //Rerender the updated profile 
+        res.render("profile", {
             message: "Successfully updated user details",
+            logged_in: req.session.logged_in,
+            //TODO: required information for profile page rendering
         });
 
     } catch (err) {
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occured" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
     }
 
 
