@@ -100,7 +100,7 @@ const industryData = [
   {
     id: 20,
     Industry: 'Advertisement',
-  },
+  }
 ];
 
 const seedIndustry = () => Industry.bulkCreate(industryData);
