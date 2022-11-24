@@ -12,11 +12,19 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const hbs = handlebars.create({helpers});
+const hbs = handlebars.create({ helpers });
 
 const sessionConfiguration = {
     secret: "TODO: a Secret secret",
-    cookie: {},
+    cookie: {
+        // 3,600,000 milliseconds - 1 hour
+        maxAge: 60 * 60 * 1000,
+        sameSite: true,
+        httpOnly: true,
+        // Unable to use secure as we do not have an SSL cert
+        secure: false,
+
+    },
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({
@@ -30,11 +38,11 @@ app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
 
-sequelize.sync({force: false}).then(()=> {
+sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(`Server successfully started, now listening on port ${PORT}`));
 });
