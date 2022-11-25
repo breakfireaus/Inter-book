@@ -18,7 +18,7 @@ const industryData = [
 
   {
     id: 4,
-    Industry: 'Fitness',
+    industry: 'Fitness',
   },
 
   {
