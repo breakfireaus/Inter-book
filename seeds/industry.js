@@ -8,7 +8,7 @@ const industryData = [
 
   {
     id: 2,
-    Industry: 'Construction',
+    industry: 'Construction',
   },
 
   {
