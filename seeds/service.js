@@ -2,10 +2,9 @@ const { Service } = require('../models');
 
 const serviceData = [
   {
-    id: 1,
     title: 'Salsa Dance class',
-    start: '2022-12-05T12:00:000Z',
-    end: '2022-12-05T12:59:000Z',
+    start: '2022-12-05T12:00:00Z',
+    end: '2022-12-05T12:59:00Z',
     description: 'Salsa Dance class beginners',
     industry: 1,
     user_id: 1,
@@ -14,10 +13,9 @@ const serviceData = [
   },
 
   {
-    id: 2,
     title: 'Bachata Dance class',
-    start: '2022-12-05T13:00:00.000Z',
-    end: '2022-12-05T13:59:000Z',
+    start: '2022-12-05T13:00:00Z',
+    end: '2022-12-05T13:59:00Z',
     description: 'Bachata Sensual class basics',
     industry: 1,
     user_id: 1,
@@ -26,10 +24,9 @@ const serviceData = [
   },
 
   {
-    id: 3,
     title: 'Bachata Dance class',
-    start: '2022-12-05T13:00:000Z',
-    end: '2022-12-05T13:59:000Z',
+    start: '2022-12-05T13:00:00Z',
+    end: '2022-12-05T13:59:00Z',
     description: 'Bachata Sensual class basics',
     industry: 1,
     user_id: 1,
@@ -38,10 +35,9 @@ const serviceData = [
   },
 
   {
-    id: 3,
     title: 'Chacha Dance class',
-    start: '2022-12-05T14:00:000Z',
-    end: '2022-12-05T14:59:000Z',
+    start: '2022-12-05T14:00:00Z',
+    end: '2022-12-05T14:59:00Z',
     description: 'Dance class',
     industry: 1,
     user_id: 2,
@@ -50,10 +46,9 @@ const serviceData = [
   },
 
   {
-    id: 4,
     title: 'X-train class',
-    start: '2022-12-20T14:00:000Z',
-    end: '2022-12-20T14:59:000Z',
+    start: '2022-12-20T14:00:00Z',
+    end: '2022-12-20T14:59:00Z',
     description: 'High intensity combining weights and strength',
     industry: 4,
     user_id: 4,
@@ -62,10 +57,9 @@ const serviceData = [
   },
 
   {
-    id: 5,
     title: 'X-train Fitness class',
-    start: '2022-12-20T14:00:000Z',
-    end: '2022-12-20T14:59:000Z',
+    start: '2022-12-20T14:00:00Z',
+    end: '2022-12-20T14:59:00Z',
     description: 'High intensity combining weights and strength',
     industry: 4,
     user_id: 5,
@@ -74,10 +68,9 @@ const serviceData = [
   },
 
   {
-    id: 6,
     title: 'Preliminary Advice - Immigration',
-    start: '2022-12-09T14:00:000Z',
-    end: '2022-12-09T14:59:000Z',
+    start: '2022-12-09T14:00:00Z',
+    end: '2022-12-09T14:59:00Z',
     description: 'A one hour preliminary advice',
     industry: 5,
     user_id: 6,
@@ -86,10 +79,9 @@ const serviceData = [
   },
 
   {
-    id: 7,
     title: 'Preliminary Developer meeting',
-    start: '2022-12-07T16:00:000Z',
-    end: '2022-12-07T16:59:000Z',
+    start: '2022-12-07T16:00:00Z',
+    end: '2022-12-07T16:59:00Z',
     description: 'A initial meeting with a developer',
     industry: 3,
     user_id: 7,

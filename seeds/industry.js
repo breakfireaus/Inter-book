@@ -2,28 +2,23 @@ const { Industry } = require('../models');
 
 const industryData = [
   {
-    id: 1,
-    Industry: 'Dance',
+    industry: 'Dance',
   },
 
   {
-    id: 2,
-    Industry: 'Construction',
+    industry: 'Construction',
   },
 
   {
-    id: 3,
-    Industry: 'IT',
+    industry: 'IT',
   },
 
   {
-    id: 4,
-    Industry: 'Fitness',
+    industry: 'Fitness',
   },
 
   {
-    id: 5,
-    Industry: 'Law',
+    industry: 'Law',
   },
 ];
 

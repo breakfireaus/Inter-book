@@ -2,7 +2,6 @@ const { User } = require('../models');
 
 const userData = [
   {
-    id: 1,
     first_name: 'James',
     last_name: 'Johnson',
     email: 'john@test.com',
@@ -11,7 +10,6 @@ const userData = [
       'I am a dance Instructor with 20years experience, I teach all latin styles and a carpenter',
   },
   {
-    id: 2,
     first_name: 'Jenny',
     last_name: 'Howell',
     email: 'jenny@test.com',
@@ -21,7 +19,6 @@ const userData = [
   },
 
   {
-    id: 3,
     first_name: 'Klara',
     last_name: 'Thompson',
     email: 'klara@test.com',
@@ -30,7 +27,6 @@ const userData = [
   },
 
   {
-    id: 4,
     first_name: 'Anthony',
     last_name: 'knowitall',
     email: 'akn@test.com',
@@ -39,7 +35,6 @@ const userData = [
   },
 
   {
-    id: 5,
     first_name: 'Zora',
     last_name: 'Clams',
     email: 'zora@test.com',
@@ -48,7 +43,6 @@ const userData = [
   },
 
   {
-    id: 6,
     first_name: 'Noel',
     last_name: 'Samsonite',
     email: 'noel@test.com',
@@ -56,7 +50,6 @@ const userData = [
     description: 'I am a Lawyer specialising in Law',
   },
   {
-    id: 7,
     first_name: 'Noel',
     last_name: 'Samsonite',
     email: 'noel@test.com',

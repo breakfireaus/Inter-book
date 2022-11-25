@@ -2,7 +2,6 @@ const { Booking } = require('../models');
 
 const bookingData = [
   {
-    id: 1,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -10,7 +9,6 @@ const bookingData = [
   },
 
   {
-    id: 2,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -18,7 +16,6 @@ const bookingData = [
   },
 
   {
-    id: 3,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -26,7 +23,6 @@ const bookingData = [
   },
 
   {
-    id: 4,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -34,7 +30,6 @@ const bookingData = [
   },
 
   {
-    id: 5,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -42,7 +37,6 @@ const bookingData = [
   },
 
   {
-    id: 6,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 2,
@@ -50,7 +44,6 @@ const bookingData = [
   },
 
   {
-    id: 7,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 2,
@@ -58,7 +51,6 @@ const bookingData = [
   },
 
   {
-    id: 8,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 1,
@@ -66,99 +58,87 @@ const bookingData = [
   },
 
   {
-    id: 9,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 3,
-    service_id: 9,
+    service_id: 3,
   },
 
   {
-    id: 10,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 2,
-    service_id: 10,
+    service_id: 5,
   },
 
   {
-    id: 11,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 4,
-    service_id: 11,
+    service_id: 3,
   },
 
   {
-    id: 12,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 4,
-    service_id: 12,
+    service_id: 1,
   },
 
   {
-    id: 13,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 4,
-    service_id: 13,
+    service_id: 2,
   },
 
   {
-    id: 14,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 3,
-    service_id: 14,
+    service_id: 4,
   },
 
   {
-    id: 15,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 3,
-    service_id: 15,
+    service_id: 2,
   },
 
   {
-    id: 16,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 5,
-    service_id: 16,
+    service_id: 3,
   },
 
   {
-    id: 17,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 5,
-    service_id: 17,
+    service_id: 3,
   },
 
   {
-    id: 18,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 5,
-    service_id: 18,
+    service_id: 4,
   },
 
   {
-    id: 19,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 5,
-    service_id: 19,
+    service_id: 2,
   },
 
   {
-    id: 20,
     cancelled: 'false',
     confirmed: 'true',
     client_id: 5,
-    service_id: 20,
+    service_id: 5,
   },
 ];
 
