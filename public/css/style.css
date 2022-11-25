@@ -1,0 +1,21 @@
+.smaller-heading {
+    font-size: 2rem;
+}
+
+.title-link {
+    text-decoration: none;
+    color: black;
+}
+
+.title-link:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.full-rounded {
+    border-radius: 1rem;
+}
+
+.left-rounded {
+    border-radius: 1rem 0 0 1rem;
+}
