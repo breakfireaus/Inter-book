@@ -3,7 +3,7 @@ const { Industry } = require('../models');
 const industryData = [
   {
     id: 1,
-    Industry: 'Dance',
+    industry: 'Dance',
   },
 
   {
