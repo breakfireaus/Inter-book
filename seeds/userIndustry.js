@@ -37,7 +37,7 @@ const userIndustryData = [
     {
         
         user_id: 4,
-        industry_id: 6
+        industry_id: 4 
     },
 
     {
