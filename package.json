@@ -17,9 +17,8 @@
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "test": "jest",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "seeds": "node seeds/index.js"
+    "seed": "node seeds/index.js"
   }
 }
