@@ -60,7 +60,7 @@ document.querySelector("#update").addEventListener("click",event=>{
 document.querySelector("#cancel").addEventListener("click",event=>{
     event.preventDefault();
     const bookingID = document.querySelector("#").value;
-    fetch((`/api/blogs/${bookingID}`),{
+    fetch((`/api/bookings/${bookingID}`),{
         method:"DELETE",
     }).then(res=>{
         if(res.ok){
