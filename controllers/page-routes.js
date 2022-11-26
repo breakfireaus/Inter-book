@@ -27,12 +27,12 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
-router.get('/searchresults', (req, res) => {
+router.get('/search', (req, res) => {
   if (req.session.logged_in) {
     res.redirect('dashboard');
     return;
   }
-  res.render('searchresults');
+  res.render('search');
 });
 
 module.exports = router;
