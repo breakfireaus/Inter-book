@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const User = require('../models/user');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
@@ -28,11 +29,16 @@ router.get('/register', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('dashboard');
-    return;
-  }
-  res.render('search');
+  
+});
+
+router.get('/profile', withAuth, async(req, res) => {
+ 
+  const profileData = await User.findByPk(req.session.user_id, { attributes: { exclude: ['password'] } });
+
+  const profile = profileData.get({plain: true});
+  
+  res.render("profile", { profile });
 });
 
 module.exports = router;
