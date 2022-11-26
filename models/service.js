@@ -15,29 +15,27 @@ Service.init(
     },
 
     //title of service
-    service_title: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
     //service start
-    service_start: {
+    start: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isDate:true,
-        },
+        isDate: true,
+      },
     },
-    
-    
 
     //service end to do
-    service_end: {
+    end: {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isDate:true,
-        },
+        isDate: true,
+      },
     },
 
     //industry (fk)
@@ -63,12 +61,21 @@ Service.init(
       hourly_rate: {
         type: DataTypes.DECIMAL,
         allowNull: false,
+        validate: {
+          isDecimal: true,
+        },
       },
 
       //short description(list service page)
-      service_desc: {
-        type: DataTypes.INTEGER,
+      description: {
+        type: DataTypes.TEXT,
         allowNull: false,
+      },
+
+      max_bookings: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+        len: [2],
       },
     },
   },

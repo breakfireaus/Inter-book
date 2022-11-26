@@ -2,6 +2,7 @@
 
 const router = require("express").Router();
 const { User, Industry } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 
 router.post("/create", async (req, res) => {
