@@ -131,12 +131,7 @@ router.put("/update/:id", withAuth, async (req, res) => {
 });
 
 router.delete("/delete/:id", withAuth, async (req, res) => {
-    // This simply deletes the service record however we may want to mark it as deleted so that we can:
-    // #1 - Keep track of Services listed with the platform
-    // #2 - Inform users about the fact that a booking they have made is no longer going to be served
-    // This could simply be done with a boolean field against the value in the database and would be somewhat trivial to implement. 
-    //When listing the avaialble services to book, we would then be searching for values where the "active" boolean is set to true
-    //To discuss
+    // We have decided to just allow users to cancel services and omit them from search results or from being displayed 
     try {
         const serviceToCancel = Service.findByPk(req.params.id);
         if (!serviceToDelete) {
@@ -149,19 +144,23 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
         await Service.update({
             cancelled: true
         },
-            {
-                where: {
-                    id: req.params.id,
-                }
-            });
+        {
+            where: {
+                id: req.params.id,
+            }
+        });
+
 
         res.status(200).json({
-            message: "Service successfully deleted",
+            message: "Service successfully cancelled",
         });
 
     } catch (err) {
         console.error(err);
-        res.render("error", { message: "An internal server error occurred " });
+        res.render("error", { 
+            status: 500,
+            message: "An internal server error occurred" 
+        });
     }
 });
 
