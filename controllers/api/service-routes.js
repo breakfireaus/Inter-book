@@ -34,7 +34,8 @@ router.post("/create", withAuth, async (req, res) => {
                 logged_in: req.session.logged_in,
             });
         } else {
-            res.render("service", { id: newService.id });
+            //redirect to the service page for the new service
+            res.redirect(`/service/${newService.id}`);
         }
 
     } catch (err) {
@@ -114,10 +115,9 @@ router.put("/update/:id", withAuth, async (req, res) => {
 
         const updatedService = serviceData.get({ plain: true });
 
-        res.render("service", {
-            updatedService,
-            logged_in: req.session.logged_in,
-        });
+        //redirect to the service page
+        res.redirect(`/service/${updatedService.id}`);
+
     } catch (err) {
         console.error(err);
         res.render("error", {
@@ -138,7 +138,7 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
     //When listing the avaialble services to book, we would then be searching for values where the "active" boolean is set to true
     //To discuss
     try {
-        const serviceToDelete = Service.findByPk(req.params.id);
+        const serviceToCancel = Service.findByPk(req.params.id);
         if (!serviceToDelete) {
             res.status(404).json({
                 message: "No service with that ID exists",
@@ -146,11 +146,14 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
             return;
         }
 
-        await Service.destroy({
-            where: {
-                id: req.params.id,
-            }
-        });
+        await Service.update({
+            cancelled: true
+        },
+            {
+                where: {
+                    id: req.params.id,
+                }
+            });
 
         res.status(200).json({
             message: "Service successfully deleted",
