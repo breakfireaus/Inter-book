@@ -77,6 +77,12 @@ Service.init(
         allowNull: false,
         len: [2],
       },
+      
+    },
+    cancelled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
 
