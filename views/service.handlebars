@@ -1,21 +1,41 @@
+{{!-- page for rendering one service --}}
 <section>
-        {{#each service}}
-        <div class="card" id="services">
-            <a href = "/services/{{id}} "class="card-body">
-                <h3 class="card-title"> {{title}} - {{id}}</h3>
-            </a>
-                <h5 class="card-subtitle mb-2 text-muted"> {{ Industry }} </h5>
-                <p class= "card-text"> {{ description }}</p>
-    
-                &nbsp; 
-    
-                <h6> Session time: {{start}}-{{end}} </h6>
-    
-                &nbsp; 
-                <h6> Hourly Rate: {{hourly_rate}} </h6>
-                
-                &nbsp; 
-                <h6> Max bookings: {{max_bookings}} </h6>
+
+    <div class="card mt-4" id="service">
+        <div class="card-body">
+
+            <h2 class="card-title" data-id="{{id}}">{{title}}</h2>
+
+            <h5 class="card-subtitle mb-2 text-muted">
+                {{#each industries as |industry|}}
+                {{ industry }} 
+                {{/each}}
+            </h5>
+            <p class="card-text"> {{ description }}</p>
+
+            &nbsp;
+
+            <h6> Session time: {{start}}-{{end}} </h6>
+
+            &nbsp;
+            <h6> Hourly Rate: {{hourly_rate}} </h6>
+
+            &nbsp;
+            <h6> Max bookings: {{max_bookings}} </h6>
+
+            {{#if bookings}} 
+            <h3>Bookings:</h3>
+            
+            <ul class="list-group">
+                {{#each bookings as |booking|}}
+                    {{#if booking.cancelled}}
+                        <li class="list-group-item cancelled">{{booking.user}}</li>
+                    {{else}}
+                        <li class="list-group-item">{{booking.user}}</li>
+                    {{/if}}
+                {{/each}}
+            </ul>
+            {{/if}}
         </div>
-        {{/each}}
+    </div>
 </section>
