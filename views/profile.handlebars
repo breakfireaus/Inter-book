@@ -1,16 +1,15 @@
 <section>
+    <div class="jumbotron">
+        {{!-- User data --}}
+        <h1 class="display-4"> {{user.first_name }} {{user.last_name }}</h1>
+        {{!-- Professional Title / Industry --}}
+        <p class="lead"> {{ user.industry }} </p>
+        <hr class="my-4">
 
-        <div class="jumbotron">
-            {{!-- User data --}}
-            <h1 class="display-4"> {{user.first_name }} {{user.last_name }}</h1>
-            {{!-- Professional Title / Industry --}}
-            <p class="lead"> {{ user.industry }} </p>
-            <hr class="my-4">
-
-            {{!-- Short Description --}}
-            <p> {{user.description}}</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button"> </a>
-            </p>
-        </div>
+        {{!-- Short Description --}}
+        <p> {{user.description}}</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" type="submit"> Update </a>
+        </p>
+    </div>
 </section>
