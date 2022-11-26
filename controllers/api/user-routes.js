@@ -1,7 +1,7 @@
-//Currently these routes return information in JSON to the invoker, this can farily easily be switched to render pages server side if we want to go down that path also. 
+// http://url/api/user/*
 
 const router = require("express").Router();
-const { User, Industry } = require("../../models");
+const { User, UserIndustry, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
 
 
@@ -14,18 +14,20 @@ router.post("/create", async (req, res) => {
             !req.body.description ||
             !req.body.industry
         ) {
+            //This should be validated on the front end but I will leave it returning JSON here so that the message can be put in a text box 
             res.status(400).json({
                 message: "Please include email, password, description and industry in request body",
             });
             return;
         }
 
-        const existingUser = User.findAll({ where: { email: req.body.email }});
+        const existingUser = User.findAll({ where: { email: req.body.email } });
 
-        if (existingUser){
-            res.status(400).json({
+        if (existingUser) {
+            res.render("error", {
+                status: 400,
                 message: "A user with this email already exists",
-            });
+            })
             return;
         }
 
@@ -41,23 +43,34 @@ router.post("/create", async (req, res) => {
             industry: industry,
         });
 
-        if (!newUser){
-            res.status(500).json({
-                message: "Something went wrong in user creation",
+        if (!newUser) {
+            //logging can be expanded here to provide more information for troubleshooting
+            console.err(`Failed to create new user with email: ${email}`);
+            res.render("error", {
+                status: 500,
+                message: "An internal server error occurred",
+                logged_in: req.session.logged_in,
             });
             return;
         } else {
             //If n:M relationship, logic for creating the n:M relationships goes here
-            res.status(201).json({
-                message: "User successfully created",
+
+            //Save the session details
+            req.session.save(() => {
+                req.session.user_id = userData.id;
+                req.session.logged_in = true;
             });
+            //redirect to the dashboard once logged on
+            res.redirect("/dashboard");
         }
 
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({
+        res.render("error", {
+            status: 500,
             message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
         });
     }
 });
@@ -76,7 +89,11 @@ router.post("/login", async (req, res) => {
         const validPassword = await userData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res.status(400).json({ message: "Incorrect email or password" });
+            //If incorrect password
+            res.render("signin", {
+                status: 401,
+                message: "Incorrect email or password"
+            });
             return;
         }
 
@@ -86,14 +103,20 @@ router.post("/login", async (req, res) => {
         });
 
         //May need to return some information to the front end. This will need to be sanitised from the userData object as this should not be returned in raw format to the front end.
-        res.status(200).json({ message: "Logged in successfully" });
+        res.redirect("dashboard");
+
+        // res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
         // this may need to be removed after deployment to heroku.
         // According to the following link, stderr should print inside heroku to give us more infomation while debugging deployed code: 
         // https://devcenter.heroku.com/articles/logging
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occurred" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
     }
 
 });
@@ -104,15 +127,21 @@ router.post("/logout", (req, res) => {
         // If session logged in then destroy the session, else return session not found.
         if (req.session.logged_in) {
             req.session.destroy(() => {
-                res.status(204).end();
+                //render the login page
+                res.render("signin");
             });
         } else {
-            res.status(404).end();
+            //session has already been destroyed by timeout or other mechanism
+            res.render("signin");
         }
     } catch (err) {
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occurred" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
 
     }
 });
@@ -120,46 +149,54 @@ router.post("/logout", (req, res) => {
 
 router.put("/update", withAuth, async (req, res) => {
     try {
-        // If request contains none of the updatable fields of password, description or industry
+        // If request contains none of the updatable fields of password, description or industries
+        // Industries expects an array of ID values
         if (
             !req.body.password &&
             !req.body.description &&
-            !req.body.industry
+            !req.body.industries
         ) {
+            //This validation will be done on the front end, returning JSON here so it can be displayed as a message 
             res.status(400).json({ message: "No updatable fields in request. Please include either a password, description or industry in request body" });
             return;
         }
 
         //Pull values off the body so they can be operated on for validation
-        const validationObject = {...req.body};
+        const validationObject = { ...req.body };
 
-        //TODO: Update once a decision has been made on industries - currently setup for n:M
-        // const industries = UserIndustry.findAll({where: { user_id: req.session.user_id}}); 
+        //This is a quick and dirty way of creating new associations, this should be changed to a less destructive
+        if (validationObject.industries) {
+            await UserIndustry.destroy({ where: { user_id: req.session.user_id } });
 
-        // for(const industry of industries){
-        //     //Do something
-        // }
+            for (const industry of validationObject.industries) {
+                await UserIndustry.create({ 
+                    user_id: req.session.user_id, 
+                    industry_id: industry,
+                });
+            }
+        }
 
 
         //TODO: likely need input sanistiation here
 
-        // User hook should hash the password before update
-        //TODO: test the functionality of password hashing via hook. This may need for the hook to be explicitly called.
-        // This will also need to be changed if we decide to make industry a n:M relationship
-        await User.update({...validationObject}, {
+        await User.update({ ...validationObject }, {
             where: {
                 id: req.session.user_id,
             },
         });
 
-        res.status(200).json({
-            message: "Successfully updated user details",
-        });
+        //TODO: get the valid information about the users profile 
+        //Rerender the updated profile 
+        res.redirect("/profile");
 
     } catch (err) {
         console.error(err);
 
-        res.status(500).json({ message: "An internal server error occured" });
+        res.render("error", {
+            status: 500,
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
+        });
     }
 
 
