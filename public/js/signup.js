@@ -8,14 +8,14 @@ const signupFormHandler = async (event) => {
     const state = document.querySelector ('#state-signup').value.trim();
 
     if (firstName && lastName && email && password && state) {
-        const response = await fetch ('/api/users', {
+        const response = await fetch ('/api/users/create', {
             method: 'POST',
             body: JSON.stringify ({firstName, lastName, email, password, state}),
             headers: {'Content-type': 'application/json'}
         });
 
         if (response.ok) {
-            document.location.replace('/');
+            document.location.replace('/signin');
         } else {
             alert ('Please check that all fields are entered');
         }
