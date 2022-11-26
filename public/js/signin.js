@@ -6,7 +6,7 @@ const signinFormHandler = async (event) => {
 
     if (email && password) {
         // add location of main dashboard
-        const response = await fetch ('/', {
+        const response = await fetch ('/api/user/login', {
             method: 'POST',
             body: JSON.stringify ({email, password}),
             headers: {
