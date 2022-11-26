@@ -1,16 +1,49 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const Service = require('../models/service');
+const Booking = require('../models/booking');
+const Industry = require('../models/industry');
 const withAuth = require('../utils/auth');
 const { parseWithoutProcessing } = require('handlebars');
 
 router.get('/', withAuth, async (req, res) => {
   try {
+    const bookingData = await Booking.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+    });
+
+    const bookings = bookingData.map((booking) => booking.get({ plain: true }));
+
+    const serviceData = await Booking.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+    });
+    const services = serviceData.map((service) => service.get({ plain: true }));
+
+    const userData = await User.findAll({
+      include: {
+        model: Industry,
+      },
+      attributes: { exclude: ['password'] },
+    });
+
+    const user = editProfileData.get({ plain: true });
+
     res.render('dashboard', {
+      bookings,
+      services,
+      user,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.render('error', {
+      status: 500,
+      message: 'A internal server error has occured',
+      logged_in: req.session.logged_in,
+    });
   }
 });
 
