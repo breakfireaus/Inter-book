@@ -1,7 +1,4 @@
 const bcrypt = require('bcrypt');
-//todo: import bcrypt to hash the words before create and before update hook for passwords
-
-//refer to bcrypt documentation and class materials
 
 const { Model, DataTypes } = require('sequelize');
 

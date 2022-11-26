@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> My Dashboard </title>
+</head>
+
+<body>
+    {{#if signed_in}}
+    <!-- Main Profile section start -->
+    
+
+    <!--- Create a service post start --->
+
+        <!--- Render services template --> 
+
+    {{/if}}
+
+    <!--- User's current Appointments -->
+
+    {{#if bookings.length}}
+    <div class="col-md-6 project-list">
+        <h3>Current Bookings:</h3>
+
+        {{#each bookings as |booking|}}
+        <div class="row mb-2">
+            <div class="col-md-8">
+                <h4><a href="/project/{{booking.id}}">{{booking.type}}</a></h4>
+            </div>
+
+            {{!-- TO DO: Add CANCEL booking functionality --}}
+            <div class="col-md-4">
+                <button class="btn btn-sm btn-danger" data-id="{{booking.id}}">CANCEL</button>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+    </div>
+
+
+</body>
+
+</html>
