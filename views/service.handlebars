@@ -1,83 +1,20 @@
 <section>
-<form>
-            <div class="service-title">
-                <h5> Select service title </h5>
-                <select class="form-control" id="service-title">
-                    <option> Dance </option>
-                    <option> Yoga </option>
-                    <option> Drawing </option>
-                    <option> Cooking </option>
-                    <option> Video Editing </option>
-                </select>
-            </div>
-
-    {{!-- Added placeholder time slots for now , can be updated later --}}
-            <div class="Session-time">
-                <h5> Session time </h5>
-                <select multiple class="form-control" id="session-time">
-                    <option> 12:00pm - 1:00pm </option>
-                    <option> 1:00pm - 2:00pm </option>
-                    <option> 2:00pm - 3:00pm </option>
-                    <option> 3:00pm - 4:00pm </option>
-                    <option> 5:00pm - 6:00pm </option>
-                    <option> 6:00pm - 7:00pm </option>
-                </select>
-            </div>
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1"> Time slots </label>
-            </div>
-
-            <div class="service-description">
-                <h5> Service Description </h5>
-                <textarea class="form-control" id="service-description" rows="5"></textarea>
-                <small id="emailHelp" class="form-text text-muted"> Please provide a short description</small>
-            </div>
-
-        {{!-- Placeholder payment methods --}}
-
-            <div class="payment-methods">
-                <h5 for="service-title"> Preferred Payment methods </h5>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="Paypal" value="option1">
-                    <label class="form-check-label" for="exampleRadios1">
-                        Paypal
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="Bank-transfer"
-                        value="option2">
-                    <label class="form-check-label" for="exampleRadios2">
-                        Bank Transfer
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="Bitcoin" value="option2">
-                    <label class="form-check-label" for="exampleRadios2">
-                        Bitcoin
-                    </label>
-                </div>
-            </div>
-</form>
-</section>
-
-    {{#if bookings.length}}
-    <div class="col-md-6 project-list">
-        <h3>Current Bookings:</h3>
-
-        {{#each bookings as |booking|}}
-        <div class="row mb-2">
-            <div class="col-md-8">
-                <h4><a href="/project/{{booking.id}}">{{booking.type}}</a></h4>
-            </div>
-
-            {{!-- TO DO: Add CANCEL booking functionality --}}
-            <div class="col-md-4">
-                <button class="btn btn-sm btn-danger" data-id="{{booking.id}}">CANCEL</button>
-            </div>
+        {{#each service}}
+        <div class="card" id="services">
+            <a href = "/services/{{id}} "class="card-body">
+                <h3 class="card-title"> {{title}} - {{id}}</h3>
+                <h5 class="card-subtitle mb-2 text-muted"> {{ Industry }} </h5>
+                <p class= "card-text"> {{ description }}</p>
+    
+                &nbsp; 
+    
+                <h6> Session time: {{start}}-{{end}} </h6>
+    
+                &nbsp; 
+                <h6> Hourly Rate: {{hourly_rate}} </h6>
+                
+                &nbsp; 
+                <h6> Max bookings: {{max_bookings}} </h6>
+            </a>
         </div>
-        {{/each}}
-    </div>
-    {{/if}}
-    </div>
+    </section>
