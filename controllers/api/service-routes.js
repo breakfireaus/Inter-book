@@ -1,3 +1,5 @@
+// http://url/api/service/*
+
 const router = require("express").Router();
 const { Service, User, Booking } = require("../../models");
 const withAuth = require("../../utils/auth");
@@ -71,11 +73,11 @@ router.put("/update/:id", withAuth, async (req, res) => {
                 logged_in: req.session.logged_in,
             });
 
-            //May want to actually recieve JSON back as it can then be displayed on a text box on the calling page
-            // To discuss
-            // res.status(401).json({
-            //     message: "You are not authorised to modify this service post as it is not yours",
-            // });
+            res.render("error", {
+                status: 401,
+                message: "You are not authorised to modify this service",
+                logged_in: req.session.logged_in,
+            });
             return;
         }
 
@@ -93,9 +95,9 @@ router.put("/update/:id", withAuth, async (req, res) => {
             });
             //Similar to above, we may want to actually respond with JSON 
             //To discuss
-            // res.status(400).json({
-            //     message: "Please include at least one updatable field in the request body of title, availability, industry, hourlyRate or description",
-            // });
+            res.status(400).json({
+                message: "Please include at least one updatable field in the request body of title, availability, industry, hourlyRate or description",
+            });
             return;
         }
 
@@ -159,7 +161,8 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
         console.error(err);
         res.render("error", { 
             status: 500,
-            message: "An internal server error occurred" 
+            message: "An internal server error occurred",
+            logged_in: req.session.logged_in,
         });
     }
 });

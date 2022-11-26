@@ -1,7 +1,7 @@
-//Currently these routes return information in JSON to the invoker, this can farily easily be switched to render pages server side if we want to go down that path also. 
+// http://url/api/user/*
 
 const router = require("express").Router();
-const { User, Industry } = require("../../models");
+const { User, UserIndustry, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
 
 
@@ -21,9 +21,9 @@ router.post("/create", async (req, res) => {
             return;
         }
 
-        const existingUser = User.findAll({ where: { email: req.body.email }});
+        const existingUser = User.findAll({ where: { email: req.body.email } });
 
-        if (existingUser){
+        if (existingUser) {
             res.render("error", {
                 status: 400,
                 message: "A user with this email already exists",
@@ -43,7 +43,7 @@ router.post("/create", async (req, res) => {
             industry: industry,
         });
 
-        if (!newUser){
+        if (!newUser) {
             //logging can be expanded here to provide more information for troubleshooting
             console.err(`Failed to create new user with email: ${email}`);
             res.render("error", {
@@ -61,12 +61,7 @@ router.post("/create", async (req, res) => {
                 req.session.logged_in = true;
             });
             //redirect to the dashboard once logged on
-            res.render("dashboard", {
-                logged_in: req.session.logged_in,
-                first_name: newUser.first_name,
-                last_name: newUser.last_name,
-                
-            })
+            res.redirect("/dashboard");
         }
 
 
@@ -94,9 +89,10 @@ router.post("/login", async (req, res) => {
         const validPassword = await userData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res.render("signin", { 
+            //If incorrect password
+            res.render("signin", {
                 status: 401,
-                message: "Incorrect email or password" 
+                message: "Incorrect email or password"
             });
             return;
         }
@@ -107,11 +103,9 @@ router.post("/login", async (req, res) => {
         });
 
         //May need to return some information to the front end. This will need to be sanitised from the userData object as this should not be returned in raw format to the front end.
-        res.render("dashboard", {
-            logged_in: req.session.logged_in,
-            //TODO: Determine what data needs to be returned to the dashboard template
-        })
-        res.status(200).json({ message: "Logged in successfully" });
+        res.redirect("dashboard");
+
+        // res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
         // this may need to be removed after deployment to heroku.
         // According to the following link, stderr should print inside heroku to give us more infomation while debugging deployed code: 
@@ -155,11 +149,12 @@ router.post("/logout", (req, res) => {
 
 router.put("/update", withAuth, async (req, res) => {
     try {
-        // If request contains none of the updatable fields of password, description or industry
+        // If request contains none of the updatable fields of password, description or industries
+        // Industries expects an array of ID values
         if (
             !req.body.password &&
             !req.body.description &&
-            !req.body.industry
+            !req.body.industries
         ) {
             //This validation will be done on the front end, returning JSON here so it can be displayed as a message 
             res.status(400).json({ message: "No updatable fields in request. Please include either a password, description or industry in request body" });
@@ -167,22 +162,24 @@ router.put("/update", withAuth, async (req, res) => {
         }
 
         //Pull values off the body so they can be operated on for validation
-        const validationObject = {...req.body};
+        const validationObject = { ...req.body };
 
-        //TODO: Update once a decision has been made on industries - currently setup for n:M
-        // const industries = UserIndustry.findAll({where: { user_id: req.session.user_id}}); 
+        //This is a quick and dirty way of creating new associations, this should be changed to a less destructive
+        if (validationObject.industries) {
+            await UserIndustry.destroy({ where: { user_id: req.session.user_id } });
 
-        // for(const industry of industries){
-        //     //Do something
-        // }
+            for (const industry of validationObject.industries) {
+                await UserIndustry.create({ 
+                    user_id: req.session.user_id, 
+                    industry_id: industry,
+                });
+            }
+        }
 
 
         //TODO: likely need input sanistiation here
 
-        // User hook should hash the password before update
-        //TODO: test the functionality of password hashing via hook. This may need for the hook to be explicitly called.
-        // This will also need to be changed if we decide to make industry a n:M relationship
-        await User.update({...validationObject}, {
+        await User.update({ ...validationObject }, {
             where: {
                 id: req.session.user_id,
             },
@@ -190,11 +187,7 @@ router.put("/update", withAuth, async (req, res) => {
 
         //TODO: get the valid information about the users profile 
         //Rerender the updated profile 
-        res.render("profile", {
-            message: "Successfully updated user details",
-            logged_in: req.session.logged_in,
-            //TODO: required information for profile page rendering
-        });
+        res.redirect("/profile");
 
     } catch (err) {
         console.error(err);
