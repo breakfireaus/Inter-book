@@ -12,20 +12,27 @@ router.get('/', withAuth, async (req, res) => {
 });
 
 router.get('/signin', (req, res) => {
-    if (req.session.logged_in) {
-        res.redirect("dashboard");
-        return;
-      }
-      res.render("signin");
-    });
+  if (req.session.logged_in) {
+    res.redirect('dashboard');
+    return;
+  }
+  res.render('signin');
+});
 
 router.get('/register', (req, res) => {
-    if (req.session.logged_in) {
-        res.redirect("dashboard");
-        return;
-      }
-      res.render("register");
-    });
+  if (req.session.logged_in) {
+    res.redirect('dashboard');
+    return;
+  }
+  res.render('register');
+});
 
+router.get('/searchresults', (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('dashboard');
+    return;
+  }
+  res.render('searchresults');
+});
 
 module.exports = router;
