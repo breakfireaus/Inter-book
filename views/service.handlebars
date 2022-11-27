@@ -8,7 +8,7 @@
 
             <h5 class="card-subtitle mb-2 text-muted">
                 {{#each industries as |industry|}}
-                {{ industry }} 
+                {{ industry }}
                 {{/each}}
             </h5>
             <p class="card-text"> {{ description }}</p>
@@ -23,19 +23,17 @@
             &nbsp;
             <h6> Max bookings: {{max_bookings}} </h6>
 
-            {{#if bookings}} 
-            <h3>Bookings:</h3>
-            
-            <ul class="list-group">
-                {{#each bookings as |booking|}}
-                    {{#if booking.cancelled}}
-                        <li class="list-group-item cancelled">{{booking.user}}</li>
-                    {{else}}
-                        <li class="list-group-item">{{booking.user}}</li>
-                    {{/if}}
-                {{/each}}
-            </ul>
+            <div class="mt-5">
+            {{{check_availability bookings max_bookings}}}
+            </div>
+
+            <div class="mt-5">
+            {{#if bookings}}
+                {{> booking-list }}
+            {{else}}
+                <h3>No bookings yet for this service</h3>
             {{/if}}
+            </div>
         </div>
     </div>
 </section>
