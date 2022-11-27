@@ -90,32 +90,31 @@ router.post("/login", async (req, res) => {
 
         if (!validPassword) {
             //If incorrect password
-            res.render("signin", {
-                status: 401,
+            res.status(401).json({
                 message: "Incorrect email or password"
             });
             return;
         }
 
+
         req.session.save(() => {
             req.session.user_id = userData.id;
             req.session.logged_in = true;
+            
+            res.status(200).json({
+                message: "Logged in successfully",
+            });
         });
 
-        //May need to return some information to the front end. This will need to be sanitised from the userData object as this should not be returned in raw format to the front end.
-        res.redirect("dashboard");
 
-        // res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
         // this may need to be removed after deployment to heroku.
         // According to the following link, stderr should print inside heroku to give us more infomation while debugging deployed code: 
         // https://devcenter.heroku.com/articles/logging
         console.error(err);
 
-        res.render("error", {
-            status: 500,
+        res.status(500).json({
             message: "An internal server error occurred",
-            logged_in: req.session.logged_in,
         });
     }
 
@@ -128,19 +127,17 @@ router.post("/logout", (req, res) => {
         if (req.session.logged_in) {
             req.session.destroy(() => {
                 //render the login page
-                res.render("signin");
+                res.redirect("/signin");
             });
         } else {
             //session has already been destroyed by timeout or other mechanism
-            res.render("signin");
+            res.redirect("/signin");
         }
     } catch (err) {
         console.error(err);
 
-        res.render("error", {
-            status: 500,
+        res.status(500).json({
             message: "An internal server error occurred",
-            logged_in: req.session.logged_in,
         });
 
     }

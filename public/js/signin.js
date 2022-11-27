@@ -1,12 +1,16 @@
+const form = document.querySelector("#signin-form");
+const messageBox = document.querySelector("#message-box");
+
+
 const signinFormHandler = async (event) => {
     event.preventDefault ();
 
-    const email = document.querySelector('#email-signin').value.trim();
-    const password = document.querySelector('#password-signin').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const password = document.querySelector('#password').value.trim();
 
     if (email && password) {
         // add location of main dashboard
-        const response = await fetch ('/', {
+        const response = await fetch ('/api/user/login', {
             method: 'POST',
             body: JSON.stringify ({email, password}),
             headers: {
@@ -14,15 +18,16 @@ const signinFormHandler = async (event) => {
             },
         });
 
-        if (response.ok) {
-            document.location.replace('/');
+        if (response.ok){
+            document.location.replace("/");
         } else {
-            alert ('Incorrect email or password. Please try again');
+            const resContent = await response.json();
+            messageBox.textContent = resContent.message;
         }
 
+    } else {
+        messageBox.textContent = "Please enter an email address and a password";
     }
 };
 
-document
-.querySelector('.signin-form')
-.addEventListener ('submit', signinFormHandler);
+form.addEventListener ('submit', signinFormHandler);

@@ -1,0 +1,17 @@
+<h3>Bookings:</h3>
+
+<ul class="list-group">
+
+{{#each bookings as |booking|}}
+    {{#if booking.cancelled}}
+        <li class="list-group-item text-muted">{{booking.user.first_name}} {{booking.user.last_name}}</li>
+    {{else}}
+        {{#if booking.confirmed}}
+        <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <span class="ml-auto text-success">Confirmed</span></li>
+        {{else}}
+        <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <button class="ml-auto confirm-booking-button" data-user-id="{{booking.user.id}}">Confirm</button></li>
+        {{/if}}
+    {{/if}}
+{{/each}}
+
+</ul>
