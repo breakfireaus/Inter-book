@@ -35,21 +35,10 @@
     {{!--- Display sessions booked by the user ---}}    
             
             <div class="col-lg-6" style="border-style: solid; border-color: black ">
-                {{#each bookings as |booking|}}
-                <div>
-                    {{#if booking.cancelled}}
-                    <li class="list-group-item text-muted">{{booking.user.first_name}} {{booking.user.last_name}}</li>
-                {{else}}
-                    {{#if booking.confirmed}}
-                    <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <span class="ml-auto text-success">Confirmed</span></li>
-                {{else}}
-                    <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <button class="ml-auto confirm-booking-button" data-user-id="{{booking.user.id}}">Confirm</button></li>
-                    {{/if}}
-                    {{/if}}
+                {{#if bookings }}
+                {{> booking-list }}
                     {{else}}
                 <h3> You have no current bookings 😿 </h3>
-
-                {{/each}}
             </div>
         </div>    
     </div>
