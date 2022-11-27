@@ -1,47 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
+<h1> Dashboard </h1>
+<section id="current-services">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> My Dashboard </title>
-</head>
+    {{#each services as |service|}}
+    <div class="card" id="services">
+        <a href="/services/{{id}} " class="card-body">
+            <h3 class="card-title"> {{title}} - {{id}}</h3>
+        </a>
+    </div>
+    {{/each}}
 
-<body>
-    {{#if signed_in}}
-    <!-- Main Profile section start -->
-    
+</section>
 
-    <!--- Create a service post start --->
+<form id="new-service">
+    <button>+ New Service</button>
+</form>
 
-        <!--- Render services template --> 
+{{!---Booking section start ---}}
 
-    {{/if}}
-
-    <!--- User's current Appointments -->
-
-    {{#if bookings.length}}
-    <div class="col-md-6 project-list">
-        <h3>Current Bookings:</h3>
-
-        {{#each bookings as |booking|}}
-        <div class="row mb-2">
-            <div class="col-md-8">
-                <h4><a href="/project/{{booking.id}}">{{booking.type}}</a></h4>
+{{! TO DO: Split section into bookings user has confirmed/needs to confirm and sessions booked by the user}}
+<section>
+    <div class="container-fluid">
+        <div class="row p-3">
+            <div class="col-lg-6 align-items-center" style="border-style: solid; border-color: black">
+                {{#each bookings as |booking|}}
+                <div>
+                    <h4> Title </h4>
+                
+                </div>
+                {{else}}
+                <h3> No bookings to confirm 😿 </h3>
+                {{/each}}
             </div>
 
-            {{!-- TO DO: Add CANCEL booking functionality --}}
-            <div class="col-md-4">
-                <button class="btn btn-sm btn-danger" data-id="{{booking.id}}">CANCEL</button>
+    {{!--- Display sessions booked by the user ---}}    
+            
+            <div class="col-lg-6" style="border-style: solid; border-color: black ">
+                {{#each bookings as |booking|}}
+                <div>
+                    <h4> Title </h4>
+                    <ul class="client-list">
+                        {{#each confirmed}}
+                        <li> Session time: {{start}}-{{end}} </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{else}}
+                <h3> No Upcoming sessions </h3>
+                {{/each}}
             </div>
-        </div>
-        {{/each}}
-    </div>
-    {{/if}}
+        </div>    
     </div>
 
-
-</body>
-
-</html>
+</section>
