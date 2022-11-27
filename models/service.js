@@ -56,35 +56,36 @@ Service.init(
         model: 'user',
         key: 'id',
       },
-
-      //hourly rate (list service page)
-      hourly_rate: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        validate: {
-          isDecimal: true,
-        },
-      },
-
-      //short description(list service page)
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      max_bookings: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        len: [2],
-      },
-      
     },
+
+    //hourly rate (list service page)
+    hourly_rate: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        isDecimal: true,
+      },
+    },
+
+    //short description(list service page)
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+
+    max_bookings: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    
+  
     cancelled: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
   },
+  
 
   {
     sequelize,
