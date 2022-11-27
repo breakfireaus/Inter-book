@@ -134,7 +134,8 @@ router.get('/service/:id', withAuth, async (req, res) => {
   }
 });
 
-router.get('/service/:id?mode=edit|create', withAuth, async (req, res) => {
+router.get('/edit-service', withAuth, async (req, res) => {
+
   try {
     const ServiceData = await Service.findByPk(req.params.id);
     if (!ServiceData) {
