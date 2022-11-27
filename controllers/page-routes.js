@@ -7,10 +7,16 @@ const withAuth = require('../utils/auth');
 const { Op } = require("sequelize")
 
 router.get('/', withAuth, async (req, res) => {
+
+  res.redirect("/dashboard");
+
+});
+
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
     const bookingData = await Booking.findAll({
       where: {
-        user_id: req.session.user_id,
+        client_id: req.session.user_id,
       },
     });
 
@@ -33,11 +39,11 @@ router.get('/', withAuth, async (req, res) => {
       },
       attributes: { exclude: ['password'] },
       where: {
-        user_id: req.session.user_id,
+        id: req.session.user_id,
       },
     });
 
-    const user = userData.get({ plain: true });
+    const user = userData.map((user) => user.get({ plain: true }));
 
     res.render('dashboard', {
       bookings,
@@ -45,6 +51,7 @@ router.get('/', withAuth, async (req, res) => {
       user,
       logged_in: req.session.logged_in,
     });
+
   } catch (err) {
     res.render('error', {
       status: 500,

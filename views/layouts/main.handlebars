@@ -12,17 +12,14 @@
         <nav class="container navbar d-flex flex-row navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <h1 class="smaller-heading"><a class="title-link" href="/">Inter-Book</a></h1>
-            {{#if signed_in}}
-            <a class="navbar-brand" href="#">Inter-book</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            {{#if logged_in}}
 
-                <form class="form-inline my-2 my-lg-0">
+
+                <form class="form-inline ml-auto my-2 pr-3 my-lg-0 border-right">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search for a professional">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Search </button>
                 </form>
+                <a id="logout" class="nav-link" href="#">Logout</a>
             {{else}}    
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
@@ -45,9 +42,9 @@
         
     </main>
 
-    {{#if signed_in}}
+    {{#if logged_in}}
     <!-- link sign-out script -->
-    <script src="/public/js/signout.js"> </script>
+    <script src="/js/signout.js"> </script>
     {{/if}}
 
 </body>

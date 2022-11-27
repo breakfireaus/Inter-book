@@ -18,13 +18,16 @@ const signinFormHandler = async (event) => {
             },
         });
 
-        if (!response.ok){
-            console.log(response);
+        if (response.ok){
+            document.location.replace("/");
+        } else {
+            const resContent = await response.json();
+            messageBox.textContent = resContent.message;
         }
 
+    } else {
+        messageBox.textContent = "Please enter an email address and a password";
     }
 };
 
-document
-.querySelector('.signin-form')
-.addEventListener ('submit', signinFormHandler);
+form.addEventListener ('submit', signinFormHandler);
