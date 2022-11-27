@@ -11,8 +11,45 @@
 
 </section>
 
-<form id="new-service">
-    <button>+ New Service</button>
+<section id="addService" class="card text-center">
+    <div class="card-body">
+        <h3 class="card-title">Add New Service</h3>
+        <form id="service-form">
+            <div class="card-text"></div>
+                <label for="title"> Service Title </label><br>
+                <input type="text" id="service-title" placeholder="Service Title">
+            </div>
+            <div class="card-text"></div>
+                <label for="industry"> Industry </label>
+            <input id="industry"></input>
+            </div>
+            <div class="card-text"></div>
+                <label for="description"> Description </label>
+            <textarea id="description"></textarea>
+            </div>
+            <div class="card-text"></div>
+                <label for="start"> Session Start </label>
+            <input id="start"></input>
+            </div>
+            <div class="card-text"></div>
+                <label for="end"> Session End </label>
+            <input id="end"></input>
+            </div>
+            <div class="card-text"></div>
+                <label for="hourly-rate"> Hourly Rate </label>
+            <input id="hourly-rate"></input>
+            </div>
+            <div class="card-text"></div>
+                <label for="max-bookings"> Max Bookings </label>
+            <input id="max-bookings"></input>
+            </div>
+            <button id="addBtn"> Add </button>
+        </form>
+    </div>
+</section>
+
+<form id="post-service">
+    <button type="submit">+ New Service</button>
 </form>
 
 {{!---Booking section start ---}}
@@ -24,23 +61,23 @@
             <div class="col-lg-6 align-items-center" style="border-style: solid; border-color: black">
                 {{#each bookings as |booking|}}
                 <div>
-                
+
                 </div>
                 {{else}}
                 <h3> No bookings to confirm 😿 </h3>
                 {{/each}}
             </div>
 
-    {{!--- Display sessions booked by the user ---}}    
-            
+            {{!--- Display sessions booked by the user ---}}
+
             <div class="col-lg-6" style="border-style: solid; border-color: black ">
                 {{#if bookings }}
                 {{> booking-list }}
-                    {{else}}
+                {{else}}
                 <h3> You have no current bookings 😿 </h3>
                 {{/if}}
             </div>
-        </div>    
+        </div>
     </div>
 
 </section>
