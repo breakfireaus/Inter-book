@@ -11,25 +11,47 @@
 
 </section>
 
-<div id="new-service">
-    <button href="/api/service/create"> + New Service </button>
-</div>
+<form id="new-service">
+    <button>+ New Service</button>
+</form>
 
 {{!---Booking section start ---}}
 
+{{! TO DO: Split section into bookings user has confirmed/needs to confirm and sessions booked by the user}}
 <section>
+    <div class="container-fluid">
+        <div class="row p-3">
+            <div class="col-lg-6 align-items-center" style="border-style: solid; border-color: black">
+                {{#each bookings as |booking|}}
+                <div>
+                    <h4> Title </h4>
+                
+                </div>
+                {{else}}
+                <h3> No bookings to confirm 😿 </h3>
+                {{/each}}
+            </div>
 
-    {{#each bookings as |booking|}}
-    <div>
-        <h4>#{{id}}</h4>
-        <ul class="client-list">
-            {{#each confirmed}}
-            <li> Session time: {{start}}-{{end}} </li>
-            {{/each}}
-        </ul>
+    {{!--- Display sessions booked by the user ---}}    
+            
+            <div class="col-lg-6" style="border-style: solid; border-color: black ">
+                {{#each bookings as |booking|}}
+                <div>
+                    {{#if booking.cancelled}}
+                    <li class="list-group-item text-muted">{{booking.user.first_name}} {{booking.user.last_name}}</li>
+                {{else}}
+                    {{#if booking.confirmed}}
+                    <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <span class="ml-auto text-success">Confirmed</span></li>
+                {{else}}
+                    <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <button class="ml-auto confirm-booking-button" data-user-id="{{booking.user.id}}">Confirm</button></li>
+                    {{/if}}
+                    {{/if}}
+                    {{else}}
+                <h3> You have no current bookings 😿 </h3>
+
+                {{/each}}
+            </div>
+        </div>    
     </div>
-    {{else}}
-    <h3> You have no current bookings 😿 </h3>
-    {{/each}}
 
 </section>
