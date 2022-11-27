@@ -6,18 +6,6 @@
         <a href="/services/{{id}} " class="card-body">
             <h3 class="card-title"> {{title}} - {{id}}</h3>
         </a>
-        <h5 class="card-subtitle mb-2 text-muted"> {{ Industry }} </h5>
-        <p class="card-text"> {{ description }}</p>
-
-        &nbsp;
-
-        <h6> Session time: {{start}}-{{end}} </h6>
-
-        &nbsp;
-        <h6> Hourly Rate: {{hourly_rate}} </h6>
-
-        &nbsp;
-        <h6> Max bookings: {{max_bookings}} </h6>
     </div>
     {{/each}}
 
@@ -38,6 +26,7 @@
             {{#each confirmed}}
             <li> Session time: {{start}}-{{end}} </li>
             {{/each}}
+        </ul>
     </div>
     {{else}}
     <h3> You have no current bookings 😿 </h3>
