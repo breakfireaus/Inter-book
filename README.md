@@ -32,6 +32,9 @@ A place where people can book services and offer services. this was developed so
 
 Visit https://inter-book.herokuapp.com/ to use this app.
 
+## Usage
+
+
 ## Credits
 
 - MDN web docs
