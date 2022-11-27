@@ -1,8 +1,12 @@
+const form = document.querySelector("#signin-form");
+const messageBox = document.querySelector("#message-box");
+
+
 const signinFormHandler = async (event) => {
     event.preventDefault ();
 
-    const email = document.querySelector('#email-signin').value.trim();
-    const password = document.querySelector('#password-signin').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const password = document.querySelector('#password').value.trim();
 
     if (email && password) {
         // add location of main dashboard
@@ -14,10 +18,8 @@ const signinFormHandler = async (event) => {
             },
         });
 
-        if (response.ok) {
-            document.location.replace('/');
-        } else {
-            alert ('Incorrect email or password. Please try again');
+        if (!response.ok){
+            console.log(response);
         }
 
     }
