@@ -1,13 +1,22 @@
-document.querySelector("#update").addEventListener("click",event=>{
+const titleInput = document.querySelector("#updatedTitle");
+const industryInput = document.querySelector("#updatedIndustry");
+const descriptionInput = document.querySelector("#updatedDescription");
+const startInput = document.querySelector("#updatedStart");
+const endInput = document.querySelector("#updatedEnd");
+const hourlyrateInput = document.querySelector("#updatedHourlyRate");
+const maxbookingsInput = document.querySelector("#updatedMaxBookings");
+
+
+document.querySelector("#update").addEventListener("click", async (event)=>{
     event.preventDefault();
     const editService = {
-        title :document.querySelector("#updateTitle").value,
-        Industry :document.querySelector("#updatedIndustry").value,
-        Description :document.querySelector("#updatedDescription").value,
-        Start :document.querySelector("#updatedSessionStart").value,
-        End :document.querySelector("#updatedSessionEnd").value,
-        Hourly_rate :document.querySelector("#updatedHourlyRate").value,
-        Max_bookings :document.querySelector("#updatedMaxBookings").value,
+        title : titleInput.value,
+        Industry : industryInput.value,
+        Description : descriptionInput.value,
+        Start : startInput.value,
+        End : endInput.value,
+        Hourly_rate : hourlyrateInput.value,
+        Max_bookings : maxbookingsInput.value,
     }
     fetch((`/api/booking/:id`),{
         method:"PUT",
@@ -23,9 +32,9 @@ document.querySelector("#update").addEventListener("click",event=>{
             alert("Failed to update service. Please check all fields and try again.")
         }
     })
-})
+});
 
-document.querySelector("#cancel").addEventListener("click",event=>{
+document.querySelector("#cancel").addEventListener("click", async (event)=>{
     event.preventDefault();
     fetch((`/api/booking/:id`),{
         method:"DELETE",
@@ -37,4 +46,4 @@ document.querySelector("#cancel").addEventListener("click",event=>{
             alert("Failed to cancel booking. Please try again")
         }
     })
-})
+});
