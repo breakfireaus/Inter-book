@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Booking, User, Service } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // GET all bookings 
 
@@ -47,11 +48,17 @@ router.post('/create', withAuth, async (req,res) => {
             });
             return;
         }
-
+        else {
         const bookingCard = await Booking.create({
+
+            id: req.body.id
             client_id: req.body.client_id,
             service_id: req.body.service_id,
+            cancelled: req.body.cancelled,
+            confirmed: req.body.confirmed
+
             });
+        }
         
         res.status(200).json({bookingCard});
         
