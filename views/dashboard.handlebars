@@ -24,7 +24,6 @@
             <div class="col-lg-6 align-items-center" style="border-style: solid; border-color: black">
                 {{#each bookings as |booking|}}
                 <div>
-                    <h4> Title </h4>
                 
                 </div>
                 {{else}}
@@ -39,6 +38,7 @@
                 {{> booking-list }}
                     {{else}}
                 <h3> You have no current bookings 😿 </h3>
+                {{/if}}
             </div>
         </div>    
     </div>
