@@ -19,3 +19,22 @@
 .left-rounded {
     border-radius: 1rem 0 0 1rem;
 }
+
+.signup-form {
+    margin-top: 2rem;
+}
+
+.custom-card {
+    width: 12rem;
+    min-height: 22rem;
+    text-decoration: none;
+    color: black;
+}
+
+.custom-card:hover {
+    text-decoration: none;
+}
+
+/* .card-img-custom {
+    
+} */

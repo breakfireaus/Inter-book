@@ -11,27 +11,26 @@ router.post("/create", async (req, res) => {
         if (
             !req.body.email ||
             !req.body.password ||
-            !req.body.description ||
-            !req.body.industry
+            !req.body.first_name ||
+            !req.body.last_name
         ) {
             //This should be validated on the front end but I will leave it returning JSON here so that the message can be put in a text box 
             res.status(400).json({
-                message: "Please include email, password, description and industry in request body",
+                message: "Please check that all fields have been filled",
             });
             return;
         }
 
-        const existingUser = User.findAll({ where: { email: req.body.email } });
+        const existingUser = await User.findAll({ where: { email: req.body.email } });
 
-        if (existingUser) {
-            res.render("error", {
-                status: 400,
+        if (existingUser.length > 0) {
+            res.status(400).json({
                 message: "A user with this email already exists",
             })
             return;
         }
 
-        const { email, password, description, industry } = req.body;
+        const { email, password, first_name, last_name } = req.body;
 
         //TODO: Likely need some validation/sanitisation here
 
@@ -39,8 +38,8 @@ router.post("/create", async (req, res) => {
         const newUser = await User.create({
             email: email,
             password: password,
-            description: description,
-            industry: industry,
+            last_name: last_name,
+            first_name: first_name,
         });
 
         if (!newUser) {
@@ -57,11 +56,14 @@ router.post("/create", async (req, res) => {
 
             //Save the session details
             req.session.save(() => {
-                req.session.user_id = userData.id;
+                req.session.user_id = newUser.id;
                 req.session.logged_in = true;
+                
+                res.status(201).json({
+                    message: "successfully created user",
+                });
             });
-            //redirect to the dashboard once logged on
-            res.redirect("/dashboard");
+          
         }
 
 
@@ -90,32 +92,31 @@ router.post("/login", async (req, res) => {
 
         if (!validPassword) {
             //If incorrect password
-            res.render("signin", {
-                status: 401,
+            res.status(401).json({
                 message: "Incorrect email or password"
             });
             return;
         }
 
+
         req.session.save(() => {
             req.session.user_id = userData.id;
             req.session.logged_in = true;
+            
+            res.status(200).json({
+                message: "Logged in successfully",
+            });
         });
 
-        //May need to return some information to the front end. This will need to be sanitised from the userData object as this should not be returned in raw format to the front end.
-        res.redirect("dashboard");
 
-        // res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
         // this may need to be removed after deployment to heroku.
         // According to the following link, stderr should print inside heroku to give us more infomation while debugging deployed code: 
         // https://devcenter.heroku.com/articles/logging
         console.error(err);
 
-        res.render("error", {
-            status: 500,
+        res.status(500).json({
             message: "An internal server error occurred",
-            logged_in: req.session.logged_in,
         });
     }
 
@@ -128,19 +129,17 @@ router.post("/logout", (req, res) => {
         if (req.session.logged_in) {
             req.session.destroy(() => {
                 //render the login page
-                res.render("signin");
+                res.redirect("/signin");
             });
         } else {
             //session has already been destroyed by timeout or other mechanism
-            res.render("signin");
+            res.redirect("/signin");
         }
     } catch (err) {
         console.error(err);
 
-        res.render("error", {
-            status: 500,
+        res.status(500).json({
             message: "An internal server error occurred",
-            logged_in: req.session.logged_in,
         });
 
     }

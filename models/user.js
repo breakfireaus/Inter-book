@@ -51,7 +51,7 @@ User.init(
     //Description (update profile page)
     description: {
       type: DataTypes.TEXT('long'),
-      allowNull: false,
+      allowNull: true,
     },
   },
 

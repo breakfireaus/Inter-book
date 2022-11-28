@@ -111,14 +111,8 @@ router.put("/update/:id", withAuth, async (req, res) => {
             },
         });
 
-        const serviceData = await Service.findByPk(req.params.id, {
-            include: [{ model: Booking }]
-        });
-
-        const updatedService = serviceData.get({ plain: true });
-
         //redirect to the service page
-        res.redirect(`/service/${updatedService.id}`);
+        res.redirect(`/service/${req.params.id}`);
 
     } catch (err) {
         console.error(err);
