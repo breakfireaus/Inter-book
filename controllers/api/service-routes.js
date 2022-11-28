@@ -9,15 +9,15 @@ router.post("/create", withAuth, async (req, res) => {
     try {
         if (
             !req.body.title ||
-            !req.body.availability ||
+            !req.body.start ||
+            !req.body.end ||
             !req.body.industry ||
-            !req.body.hourlyRate ||
-            !req.body.description
+            !req.body.hourly_rate ||
+            !req.body.description ||
+            !req.body.max_bookings
         ) {
-            res.render("error", {
-                status: 400,
+            res.status(400).json({
                 message: "Please include a title, availability, industry, hourly rate and description",
-                logged_in: req.session.logged_in,
             });
             return;
         }
@@ -26,26 +26,25 @@ router.post("/create", withAuth, async (req, res) => {
 
         // TODO: validation 
 
-        const newService = await Service.create({ ...validationObject });
+        const newService = await Service.create({ ...validationObject, user_id: req.session.user_id });
 
         if (!newService) {
             //Render the error page and pass the message back
-            res.render("error", {
-                status: 500,
-                message: "Failed to create service",
-                logged_in: req.session.logged_in,
-            });
+            res.status(500).json({
+                message: "An internal server error occurred"
+            })
         } else {
             //redirect to the service page for the new service
-            res.redirect(`/service/${newService.id}`);
+            res.status(201).json({
+                message: "Service created successfully",
+                redirect: `/service/${newService.id}`
+            });
         }
 
     } catch (err) {
         console.error(err);
-        res.render("error", {
-            status: 500,
-            message: "An internal server error occurred ",
-            logged_in: req.session.logged_in,
+        res.status(500).json({
+            message: "An internal server error occurred"
         });
     }
 
@@ -57,27 +56,18 @@ router.put("/update/:id", withAuth, async (req, res) => {
 
         if (!serviceToUpdate) {
 
-            res.render("error", {
-                status: 404,
-                message: `A service with ID ${req.params.id} does not exist`,
-                logged_in: req.session.logged_in,
+            res.status(404).json({
+                message: "A serviec with this ID can not be found",
             });
 
             return;
         }
 
         if (serviceToUpdate.user_id != req.session.user_id) {
-            res.render("error", {
-                status: 401,
+            res.status(401).json({
                 message: `You are not authorised to modify service with ID ${req.params.id} as you are not the owner`,
-                logged_in: req.session.logged_in,
             });
 
-            res.render("error", {
-                status: 401,
-                message: "You are not authorised to modify this service",
-                logged_in: req.session.logged_in,
-            });
             return;
         }
 
@@ -88,16 +78,10 @@ router.put("/update/:id", withAuth, async (req, res) => {
             !req.body.hourlyRate &&
             !req.body.description
         ) {
-            res.render("error", {
-                status: 400,
-                message: "Please include at least one updatable field in the request body of title, availability, industry, hourlyRate or description",
-                logged_in: req.session.logged_in,
-            });
-            //Similar to above, we may want to actually respond with JSON 
-            //To discuss
             res.status(400).json({
                 message: "Please include at least one updatable field in the request body of title, availability, industry, hourlyRate or description",
             });
+            
             return;
         }
 
@@ -112,14 +96,14 @@ router.put("/update/:id", withAuth, async (req, res) => {
         });
 
         //redirect to the service page
-        res.redirect(`/service/${req.params.id}`);
+        res.status(200).json({
+            redirect: `/service/${req.params.id}`
+        });
 
     } catch (err) {
         console.error(err);
-        res.render("error", {
-            status: 500,
-            message: "An internal server error occurred",
-            logged_in: req.status.logged_in,
+        res.status(500).json({
+            message: "An internal server error occurred"
         });
     }
 
@@ -153,10 +137,8 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.render("error", { 
-            status: 500,
-            message: "An internal server error occurred",
-            logged_in: req.session.logged_in,
+        res.status(500).json({
+            message: "An internal server error occurred"
         });
     }
 });

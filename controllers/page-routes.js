@@ -22,6 +22,10 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
     const bookings = bookingData.map((booking) => booking.get({ plain: true }));
 
+    const industryData = await Industry.findAll();
+
+    const industries = industryData.map(industry => industry.get({ plain: true }));
+
     const serviceData = await Service.findAll({
       attributes: {
         exclude: ['user_id', 'hourly_rate', 'description', 'max bookings'],
@@ -43,12 +47,13 @@ router.get('/dashboard', withAuth, async (req, res) => {
       },
     });
 
-    const user = userData.map((user) => user.get({ plain: true }));
+    const user = userData.map((user) => user.get({ plain: true }))[0];
 
     res.render('dashboard', {
       bookings,
       services,
       user,
+      industries,
       logged_in: req.session.logged_in,
     });
 
@@ -78,10 +83,10 @@ router.get('/register', (req, res) => {
 });
 
 router.get('/search', withAuth, async (req, res) => {
-  const serviceData = await Service.findAll({   
+  const serviceData = await Service.findAll({
     where: {
-      user_id: {[Op.not]: req.session.user_id },
-      cancelled: {[Op.not]: true}, 
+      user_id: { [Op.not]: req.session.user_id },
+      cancelled: { [Op.not]: true },
     },
   });
   const services = serviceData.map((service) => service.get({ plain: true }));
