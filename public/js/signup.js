@@ -1,27 +1,48 @@
+const formElement = document.querySelector(".signup-form");
+
+const firstnameInput = document.querySelector("#first-name");
+const lastnameInput = document.querySelector("#last-name");
+const emailInput = document.querySelector("#email");
+const passwordInput = document.querySelector("#password");
+
+const messageBox = document.querySelector("#message-box");
+
+
 const signupFormHandler = async (event) => {
     event.preventDefault()
 
-    const firstName = document.querySelector ('#first-name-signup').value.trim();
-    const lastName = document.querySelector ('#last-name-signup').value.trim();
-    const email = document.querySelector ('#email-signup').value.trim();
-    const password = document.querySelector ('#password-signup').value.trim();
-    const state = document.querySelector ('#state-signup').value.trim();
+    const firstName = firstnameInput.value.trim();
+    const lastName = lastnameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-    if (firstName && lastName && email && password && state) {
-        const response = await fetch ('/api/users', {
+    // Validate Password 
+
+    if (password.length < 8 ) {
+        messageBox.textContent = "Please enter a password with at least 8 characters."
+    }
+
+    if (firstName && lastName && email && password) {
+        const response = await fetch ('/api/user/create', {
             method: 'POST',
-            body: JSON.stringify ({firstName, lastName, email, password, state}),
+            body: JSON.stringify ({
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                password
+            }),
             headers: {'Content-type': 'application/json'}
         });
 
         if (response.ok) {
             document.location.replace('/');
         } else {
-            alert ('Please check that all fields are entered');
+            const responseData = await response.json();
+            messageBox.textContent = responseData.message;
         }
+    } else {
+        messageBox.textContent = "Please check that all fields are entered";
     }
 }
 
-document
-.querySelector('.signup-form')
-.addEventListener('submit', signupFormHandler);
+formElement.addEventListener('submit', signupFormHandler);
