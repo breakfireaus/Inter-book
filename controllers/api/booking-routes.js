@@ -40,7 +40,11 @@ router.get ('/:id', withAuth, async (req,res) => {
 router.post('/create', withAuth, async (req,res) => {
     try {
         
-        const existingBooking = Booking.findAll({where: { service_id: req.body.service_id }});
+        const existingBooking = Booking.findAll({where: { 
+                service_id: req.body.service_id ,
+                client_id: req.session.user_id,
+            }
+        });
 
         if (existingBooking) {
             res.status(400).json({
