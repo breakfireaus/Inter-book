@@ -77,11 +77,10 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
-router.get('/search', async (req, res) => {
-  const serviceData = await Service.findAll({
-    
+router.get('/search', withAuth, async (req, res) => {
+  const serviceData = await Service.findAll({   
     where: {
-      user_id: req.session.user_id,
+      user_id: {[Op.not]: req.session.user_id },
       cancelled: {[Op.not]: true}, 
     },
   });
@@ -118,7 +117,18 @@ router.get('/edit-profile', withAuth, async (req, res) => {
 
 router.get('/service/:id', withAuth, async (req, res) => {
   try {
-    const ServiceData = await Service.findByPk(req.params.id);
+    const ServiceData = await Service.findByPk(req.params.id, {
+      include: {
+        model: Booking,
+        as: 'bookings',
+        include: {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          }
+        }
+      }
+    });
     if (!ServiceData) {
       res.render('error', {
         status: 404,
@@ -129,7 +139,7 @@ router.get('/service/:id', withAuth, async (req, res) => {
     }
     const service = ServiceData.get({ plain: true });
     res.render('service', {
-      service,
+      ...service,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
