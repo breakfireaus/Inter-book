@@ -11,27 +11,26 @@ router.post("/create", async (req, res) => {
         if (
             !req.body.email ||
             !req.body.password ||
-            !req.body.description ||
-            !req.body.industry
+            !req.body.first_name ||
+            !req.body.last_name
         ) {
             //This should be validated on the front end but I will leave it returning JSON here so that the message can be put in a text box 
             res.status(400).json({
-                message: "Please include email, password, description and industry in request body",
+                message: "Please check that all fields have been filled",
             });
             return;
         }
 
-        const existingUser = User.findAll({ where: { email: req.body.email } });
+        const existingUser = await User.findAll({ where: { email: req.body.email } });
 
-        if (existingUser) {
-            res.render("error", {
-                status: 400,
+        if (existingUser.legnth > 0) {
+            res.status(400).json({
                 message: "A user with this email already exists",
             })
             return;
         }
 
-        const { email, password, description, industry } = req.body;
+        const { email, password, first_name, last_name } = req.body;
 
         //TODO: Likely need some validation/sanitisation here
 
@@ -39,8 +38,8 @@ router.post("/create", async (req, res) => {
         const newUser = await User.create({
             email: email,
             password: password,
-            description: description,
-            industry: industry,
+            last_name: last_name,
+            first_name: first_name,
         });
 
         if (!newUser) {
@@ -57,11 +56,14 @@ router.post("/create", async (req, res) => {
 
             //Save the session details
             req.session.save(() => {
-                req.session.user_id = userData.id;
+                req.session.user_id = newUser.id;
                 req.session.logged_in = true;
+                
+                res.status(201).json({
+                    message: "successfully created user",
+                });
             });
-            //redirect to the dashboard once logged on
-            res.redirect("/dashboard");
+          
         }
 
 

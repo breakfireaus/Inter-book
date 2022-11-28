@@ -19,3 +19,7 @@
 .left-rounded {
     border-radius: 1rem 0 0 1rem;
 }
+
+.signup-form {
+    margin-top: 2rem;
+}
