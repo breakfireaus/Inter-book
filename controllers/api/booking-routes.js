@@ -20,7 +20,6 @@ router.post('/create', withAuth, async (req,res) => {
             });
             return;
         }
-        else {
         const bookingCard = await Booking.create({
 
             id: req.body.id,
