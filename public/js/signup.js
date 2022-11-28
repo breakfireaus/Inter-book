@@ -16,6 +16,12 @@ const signupFormHandler = async (event) => {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
+    // Validate Password 
+
+    if (password.length < 8 ) {
+        messageBox.textContent = "Please enter a password with at least 8 characters."
+    }
+
     if (firstName && lastName && email && password) {
         const response = await fetch ('/api/user/create', {
             method: 'POST',

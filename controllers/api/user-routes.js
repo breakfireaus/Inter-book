@@ -23,7 +23,7 @@ router.post("/create", async (req, res) => {
 
         const existingUser = await User.findAll({ where: { email: req.body.email } });
 
-        if (existingUser.legnth > 0) {
+        if (existingUser.length > 0) {
             res.status(400).json({
                 message: "A user with this email already exists",
             })
