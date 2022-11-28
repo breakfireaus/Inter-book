@@ -1,11 +1,10 @@
 // Selectors from the dashboard view
 
-const { response } = require("express");
 
 const currentServices = document.querySelector('#current-services');
-const addService = document.querySelector('#addService');
+const addService = document.querySelector('#add-service-modal');
 const serviceForm = document.querySelector('#service-form');
-const postServiceBtn = document.querySelector('#post-service');
+const postServiceBtn = document.querySelector('#add-new-service');
 
 const title = document.querySelector("#title");
 const industry = document.querySelector("#industry");
@@ -17,19 +16,19 @@ const maxBookings =  document.querySelector("#max-bookings");
 
 
 
-function hideAddService () {
-    addService.hidden = true;
-}
+// function hideAddService () {
+//     addService.hidden = true;
+// }
 
-hideAddService ();
+// hideAddService ();
 
-const postService = async (event) => {
-    event.preventDefault();
+// const postService = async (event) => {
+//     event.preventDefault();
     
-    currentServices.hidden = true;
-    postServiceBtn.hidden = true;
-    addService.hidden = true;
-}
+//     currentServices.hidden = true;
+//     postServiceBtn.hidden = true;
+//     addService.hidden = true;
+// }
 
 const newService = async (event) => {
     event.preventDefault();
@@ -74,5 +73,5 @@ const newService = async (event) => {
     }
 }
 
-postServiceBtn.addEventListener ('click', postService);
+// postServiceBtn.addEventListener ('click', postService);
 serviceForm.addEventListener ('click', newService);
