@@ -18,6 +18,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
       where: {
         client_id: req.session.user_id,
       },
+      include: [{
+        model: Service
+      }]
     });
 
     const bookings = bookingData.map((booking) => booking.get({ plain: true }));
@@ -85,7 +88,6 @@ router.get('/register', (req, res) => {
 router.get('/search', withAuth, async (req, res) => {
   const serviceData = await Service.findAll({
     where: {
-      user_id: { [Op.not]: req.session.user_id },
       cancelled: { [Op.not]: true },
     },
   });
@@ -142,6 +144,8 @@ router.get('/service/:id', withAuth, async (req, res) => {
       });
       return;
     }
+
+
     const service = ServiceData.get({ plain: true });
     res.render('service', {
       ...service,
