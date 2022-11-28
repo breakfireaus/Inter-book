@@ -2,11 +2,11 @@
 <section class="d-flex flex-wrap justify-content-evenly align-content-stretch w-100 mt-4">
     {{#each services as |service|}}
         <a href="/service/{{service.id}}">
-            <div class="card w-auto h-auto m-2">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="This is a placeholder">
+            <div class="card m-2 custom-card">
+                <img src="https://via.placeholder.com/150" class="card-img-top card-img-custom" alt="This is a placeholder">
                 <div class="card-body"> 
                     <div class="card-title">{{service.title}}</div>
-                    <p class="card-text"></p>
+                    <p class="card-text">{{service.description}}</p>
                 </div>
             </div>
         </a>
