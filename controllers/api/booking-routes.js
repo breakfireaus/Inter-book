@@ -42,7 +42,7 @@ router.post('/create', withAuth, async (req,res) => {
 
 // CANCEL a booking 
 
-router.update('/update/:id', withAuth, async (req, res) => {
+router.delete('/update/:id', withAuth, async (req, res) => {
     try {
 
         const bookingToUpdate = await Booking.findByPk(req.params.id);

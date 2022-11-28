@@ -23,3 +23,18 @@
 .signup-form {
     margin-top: 2rem;
 }
+
+.custom-card {
+    width: 12rem;
+    min-height: 22rem;
+    text-decoration: none;
+    color: black;
+}
+
+.custom-card:hover {
+    text-decoration: none;
+}
+
+/* .card-img-custom {
+    
+} */
