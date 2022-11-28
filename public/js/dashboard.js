@@ -6,13 +6,15 @@ const addService = document.querySelector('#add-service-modal');
 const serviceForm = document.querySelector('#service-form');
 const postServiceBtn = document.querySelector('#add-new-service');
 
-const title = document.querySelector("#title");
-const industry = document.querySelector("#industry");
-const description = document.querySelector("#description");
-const start = document.querySelector("#start");
-const end = document.querySelector("#end");
-const hourlyRate = document.querySelector("#hourly-rate");
-const maxBookings =  document.querySelector("#max-bookings");
+const titleInput = document.querySelector("#title");
+const industryInput = document.querySelector("#industry");
+const descriptionInput = document.querySelector("#description");
+const startInput = document.querySelector("#start");
+const endInput = document.querySelector("#end");
+const hourlyRateInput = document.querySelector("#hourly-rate");
+const maxBookingsInput =  document.querySelector("#max-bookings");
+
+const messageBox = document.querySelector("#message-box");
 
 
 
@@ -31,7 +33,16 @@ const maxBookings =  document.querySelector("#max-bookings");
 // }
 
 const newService = async (event) => {
+    
     event.preventDefault();
+
+    const title = titleInput.value.trim();
+    const industry = industryInput.value;
+    const description = descriptionInput.value.trim();
+    const start = startInput.value;
+    const end = endInput.value;
+    const hourlyRate = hourlyRateInput.value.trim();
+    const maxBookings = maxBookingsInput.value.trim();
 
     if (!title ||
         !industry ||
@@ -40,38 +51,40 @@ const newService = async (event) => {
         !end ||
         !hourlyRate ||
         !maxBookings ) {
-
-    alert("Please ensure all fields are entered.")
-}
-
-    const serviceObject = {
-        title: title,
-        industry: industry,
-        description: description,
-        start: start,
-        end: end,
-        hourly_rate: hourlyRate,
-        max_bookings: maxBookings
-    }
-
-    if (title && industry && description && start && end && hourlyRate && maxookings) {
         
-        const response = await fetch ('api/service/create', {
+        messageBox.textContent = "Please fill out all of the fields";
+        
+    } else {
+
+        const body = {
+            title: title,
+            industry: industry,
+            description: description,
+            start: start,
+            end: end,
+            hourly_rate: hourlyRate,
+            max_bookings: maxBookings
+        }
+            
+        const response = await fetch ('/api/service/create', {
             method: 'POST',
-            body: JSON.stringify(serviceObject),
+            body: JSON.stringify(body),
             headers: {
                 "Content-type": "application/json"
             }
         });
 
+        
         if (response.ok) {
-            addService.setAttribute("hidden", "false")
-            location.reload()
+            const responseContent = await response.json();
+            document.location.replace(responseContent.redirect);
         } else {
-            alert ("An error occurred. Please try again")
+            const responseContent = await response.json();
+            messageBox.textContent = responseContent.message;
         }
+        
     }
 }
 
 // postServiceBtn.addEventListener ('click', postService);
-serviceForm.addEventListener ('click', newService);
+serviceForm.addEventListener ('submit', newService);

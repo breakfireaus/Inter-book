@@ -13,8 +13,8 @@
 
     {{#each services as |service|}}
     <div class="card" id="services">
-        <a href="/services/{{id}} " class="card-body">
-            <h3 class="card-title"> {{title}} - {{id}}</h3>
+        <a href="/service/{{id}} " class="card-body">
+            <h3 class="card-title"> {{title}}</h3>
         </a>
     </div>
     {{else}}
@@ -24,7 +24,7 @@
 </section>
 
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-service-modal">List a New Service</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-service-modal">List a New Service</button>
 
 {{!-- add service modal  --}}
 <section id="add-service-modal" class="modal fade" tabindex="-1" aria-hidden="true">
@@ -32,38 +32,52 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Add New Service</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span></button>
             </div>
             <form id="service-form">
                 <div class="modal-body">
-                    <label for="title"> Service Title </label><br>
-                    <input type="text" id="service-title" placeholder="Service Title">
-                
-                    <label for="industry"> Industry </label>
-                    <input id="industry"></input>
+                    <div class="form-group">
+                        <label for="title"> Service Title </label>
+                        <input type="text" class="form-control" id="title" placeholder="Service Title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="industry"> Industry </label>
+                        <select name="industry" id="industry">
+                            {{#each industries as |industry|}}
+                            <option value="{{industry.id}}">{{industry.industry}}</option>
+                                {{/each}}
+                        </select>
+                    </div>
                     
+                    <div class="form-group">
+                        <label for="description"> Description </label>
+                        <textarea id="description" class="form-control"></textarea>
+                    </div>
                     
-                    <label for="description"> Description </label>
-                    <textarea id="description"></textarea>
+                    <div class="form-group">
+                        <label for="start"> Session Start </label>
+                        <input id="start" class="form-control" type="datetime-local"></input>
+
                     
+                        <label for="end"> Session End </label>
+                        <input id="end" class="form-control" type="datetime-local"></input>
+                    </div>
                     
-                    <label for="start"> Session Start </label>
-                    <input id="start" type="date"></input>
+                    <div class="form-group">
+                        <label for="hourly-rate"> Hourly Rate </label>
+                        <input id="hourly-rate" class="form-control"></input>
+                    </div>
                     
-                    
-                    <label for="end"> Session End </label>
-                    <input id="end" type="date"></input>
-                    
-                    
-                    <label for="hourly-rate"> Hourly Rate </label>
-                    <input id="hourly-rate"></input>
-                    
-                    
-                    <label for="max-bookings"> Max Bookings </label>
-                    <input id="max-bookings"></input>
+                    <div class="form-group">
+                        <label for="max-bookings"> Maximum Number of Bookings </label>
+                        <input id="max-bookings" class="form-control"></input>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="add-new-service" data-bs-dismiss="modal"> Add </button>
+                    <div id="message-box" class="text-danger"></div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="add-new-service" class="btn btn-primary" type="submit"> Add </button>
                 </div> 
             </form>
         </div>
