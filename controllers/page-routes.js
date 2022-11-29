@@ -16,7 +16,7 @@ router.get('/', withAuth, async (req, res) => {
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
     //Query all bookings made by the user
-    const bookingData = await sequelize.query(`select * from booking b inner join service s on b.service_id = s.id inner join user u on u.id = b.client_id where b.client_id = ${req.session.user_id}`, { type: QueryTypes.SELECT });
+    const bookingData = await sequelize.query(`select b.id as booking_id, u.id as client_id, u.first_name, u.last_name, b.confirmed, b.cancelled, s.title, s.start, s.end from booking b inner join service s on b.service_id = s.id inner join user u on u.id = b.client_id where b.client_id = ${req.session.user_id}`, { type: QueryTypes.SELECT });
 
 
     const bookings = []
