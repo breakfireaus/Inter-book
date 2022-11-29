@@ -4,7 +4,7 @@
     <div class="card mt-4" id="service">
         <div class="card-body">
 
-            <h2 class="card-title" data-id="{{id}}">{{title}}</h2>
+            <h2 id="service-title" class="card-title" data-id="{{id}}">{{title}}</h2>
 
             <h5 class="card-subtitle mb-2 text-muted">
                 {{#each industries as |industry|}}
@@ -26,6 +26,7 @@
             <div class="mt-5">
             {{{check_availability bookings max_bookings}}}
             </div>
+            <div id="message-box" class="text-danger"></div>
 
             <div class="mt-5">
             {{#if bookings}}
@@ -36,4 +37,6 @@
             </div>
         </div>
     </div>
+
+    <script src="/js/booking.js"></script>
 </section>
