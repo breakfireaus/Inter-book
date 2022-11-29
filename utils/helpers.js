@@ -6,8 +6,20 @@ const check_availability = (bookings, max_bookings) => {
     }
 }
 
+const format_date = (dateToFormat) =>{
+    const date = new Date(dateToFormat);
+
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+
+    const day = date.getDate();
+    const month = ("0" + date.getMonth()).slice(-2);
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
+}
 
 
 
 
-module.exports = { check_availability };
+module.exports = { format_date, check_availability };
