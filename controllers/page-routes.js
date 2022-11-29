@@ -21,7 +21,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
     const bookings = []
 
-    for (const booking of bookingData){
+    for (const booking of bookingData) {
       bookings.push({
         user: {
           id: booking.client_id,
@@ -37,17 +37,17 @@ router.get('/dashboard', withAuth, async (req, res) => {
     }
 
     //Query all bookings for all bookings for services listed by the user
-    const serviceBookingData = await sequelize.query(`select b.id as booking_id, u.id as client_id, u.first_name, u.last_name, b.confirmed, b.cancelled, s.title, s.start, s.end from booking b inner join service s on b.service_id = s.id inner join user u on u.id = b.client_id where s.user_id = ${req.session.user_id}`, {type: QueryTypes.SELECT});
+    const serviceBookingData = await sequelize.query(`select b.id as booking_id, u.id as client_id, u.first_name, u.last_name, b.confirmed, b.cancelled, s.title, s.start, s.end from booking b inner join service s on b.service_id = s.id inner join user u on u.id = b.client_id where s.user_id = ${req.session.user_id}`, { type: QueryTypes.SELECT });
 
     const bookingsForUserService = [];
 
-    for (const booking of serviceBookingData){
+    for (const booking of serviceBookingData) {
       const bookingStart = new Date(booking.start);
       const bookingEnd = new Date(booking.end);
-      
+
       //Format relevant information for bookings to the user's services
       bookingsForUserService.push({
-        user: { 
+        user: {
           id: booking.client_id,
           first_name: booking.first_name,
           last_name: booking.last_name,
@@ -161,19 +161,9 @@ router.get('/edit-profile', withAuth, async (req, res) => {
 
 router.get('/service/:id', withAuth, async (req, res) => {
   try {
-    const ServiceData = await Service.findByPk(req.params.id, {
-      include: {
-        model: Booking,
-        as: 'bookings',
-        include: {
-          model: User,
-          attributes: {
-            exclude: ['password'],
-          }
-        }
-      }
-    });
-    if (!ServiceData) {
+    const serviceData = await Service.findByPk(req.params.id);
+
+    if (!serviceData) {
       res.render('error', {
         status: 404,
         message: 'A service with this ID cannot be found',
@@ -182,8 +172,24 @@ router.get('/service/:id', withAuth, async (req, res) => {
       return;
     }
 
+    const service = serviceData.get({ plain: true });
 
-    const service = ServiceData.get({ plain: true });
+    const bookings = await sequelize.query(`select b.id as booking_id, u.id as client_id, u.first_name, u.last_name, b.confirmed, b.cancelled, s.title, s.start, s.end from booking b inner join service s on b.service_id = s.id inner join user u on u.id = b.client_id where s.id = ${req.params.id}`, { type: QueryTypes.SELECT });
+
+    service.bookings = [];
+
+    for (const booking of bookings){
+      service.bookings.push({
+        booking_id: booking.booking_id,
+        confirmed: booking.confirmed,
+        cancelled: booking.cancelled,
+        user: {
+          first_name: booking.first_name,
+          last_name: booking.last_name
+        }
+      })
+    }
+
     res.render('service', {
       ...service,
       logged_in: req.session.logged_in,

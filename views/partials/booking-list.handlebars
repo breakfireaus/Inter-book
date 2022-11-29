@@ -7,9 +7,9 @@
         <li class="list-group-item text-muted">{{booking.user.first_name}} {{booking.user.last_name}}</li>
     {{else}}
         {{#if booking.confirmed}}
-        <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <span class="ml-auto text-success">Confirmed</span></li>
+        <li class="list-group-item d-flex"> Booking user: {{booking.user.first_name}} {{booking.user.last_name}}  <span class="ml-auto text-success">Confirmed</span></li>
         {{else}}
-        <li class="list-group-item d-flex"><span>{{booking.user.first_name}} {{booking.user.last_name}}</span> <button class="ml-auto confirm-booking-button" data-user-id="{{booking.user.id}}">Confirm</button></li>
+        <li class="list-group-item d-flex"> Booking user: {{booking.user.first_name}} {{booking.user.last_name}} <button id="confirm" data-id="{{booking.booking_id}}" class="ml-auto btn btn-success">Confirm booking</button></li>
         {{/if}}
     {{/if}}
 {{/each}}

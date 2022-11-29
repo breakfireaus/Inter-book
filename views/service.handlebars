@@ -15,7 +15,7 @@
 
             &nbsp;
 
-            <h6> Session time: {{start}}-{{end}} </h6>
+            <h6> Session time: {{format_date start}} - {{format_date end}} </h6>
 
             &nbsp;
             <h6> Hourly Rate: {{hourly_rate}} </h6>
@@ -28,6 +28,8 @@
             </div>
             <div id="message-box" class="text-danger"></div>
 
+            <div id="confirmation-messagebox" class="text-danger"></div>
+
             <div class="mt-5">
             {{#if bookings}}
                 {{> booking-list }}
@@ -39,4 +41,5 @@
     </div>
 
     <script src="/js/booking.js"></script>
+    <script src="/js/confirm-booking.js"></script>
 </section>
