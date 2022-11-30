@@ -34,6 +34,29 @@ Visit https://inter-book.herokuapp.com/ to use this app.
 
 ## Usage
 
+- Sign in / homepage screenshot
+
+![Homepage/sign in page](./assets/readme/Screenshot-1.jpg)
+
+- Signup page Screenshot
+
+![Signup page](./assets/readme/Screenshot-2.jpg)
+
+- Dashboard page
+
+![Dashboard page](./assets/readme/Screenshot-3.jpg)
+
+- Search result page
+
+![Search result page](./assets/readme/Screenshot-4.jpg)
+
+- Booking page
+
+![Booking page](./assets/readme/Screenshot-5.jpg)
+
+- Add a service Modal
+
+![Add a service modal](./assets/readme/Screenshot-6.jpg)
 
 ## Credits
 
