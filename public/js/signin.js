@@ -22,11 +22,11 @@ const signinFormHandler = async (event) => {
             document.location.replace("/");
         } else {
             const resContent = await response.json();
-            confirmMessageBox.textContent = resContent.message;
+            messageBox.textContent = resContent.message;
         }
 
     } else {
-        confirmMessageBox.textContent = "Please enter an email address and a password";
+        messageBox.textContent = "Please enter an email address and a password";
     }
 };
 
