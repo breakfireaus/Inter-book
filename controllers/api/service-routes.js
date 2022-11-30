@@ -1,8 +1,9 @@
 // http://url/api/service/*
 
 const router = require("express").Router();
-const { Service, User, Booking } = require("../../models");
+const { Service, User, Booking, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
+const buildIcs = require("../../utils/ics-builder");
 
 
 router.post("/create", withAuth, async (req, res) => {
@@ -139,6 +140,45 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
         console.error(err);
         res.status(500).json({
             message: "An internal server error occurred"
+        });
+    }
+});
+
+router.get("/calendar/:id", async (req, res) => {
+    try {
+        const serviceData = await Service.findByPk(req.params.id, {
+            include: [{
+                model: User
+            }]
+        });
+
+        if (!serviceData){
+            res.status(404).json({
+                message: `A service with ID ${req.params.id} could not be found`,
+            });
+            return;
+        }
+
+        const icsFilePath = await buildIcs(serviceData);
+
+        if (icsFilePath.error){
+            res.status(500).json({
+                message: "There was an issue building the ICS file"
+            });
+        } else {
+            console.log(icsFilePath);
+            res.status(200).download(icsFilePath, {
+                root: `${__dirname}/../../ics-files`,
+                dotfiles: "deny",
+            });
+        }
+
+
+
+    } catch (err) {
+        res.status(500).json({
+            message: "An internal server error occurred.",
+            err: err
         });
     }
 });
