@@ -101,7 +101,7 @@
                 <ul class="list-group confirm-booking-list">
                 {{#each bookingsForUserService as |booking|}}
                     {{#if booking.cancelled}}
-                        <li class="list-group-item text-muted">{{booking.user.first_name}} {{booking.user.last_name}}</li>
+                        <li class="list-group-item text-muted">Service title: {{booking.title}} <br> Booking user: {{booking.user.first_name}} {{booking.user.last_name}} </li>
                     {{else}}
                         {{#if booking.confirmed}}
                         <li class="list-group-item d-flex" data-toggle="tooltip" data-placement="top" data-html="true" title="Booking starts: {{format_date booking.start}} Booking Ends: {{format_date booking.end}}">{{booking.title}} <br> Booking user: {{booking.user.first_name}} {{booking.user.last_name}}  <span class="ml-auto text-success">Confirmed</span></li>
