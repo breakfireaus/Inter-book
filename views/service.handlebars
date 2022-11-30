@@ -4,7 +4,7 @@
     <div class="card mt-4" id="service">
         <div class="card-body">
 
-            <h2 class="card-title" data-id="{{id}}">{{title}}</h2>
+            <h2 id="service-title" class="card-title" data-id="{{id}}">{{title}}</h2>
 
             <h5 class="card-subtitle mb-2 text-muted">
                 {{#each industries as |industry|}}
@@ -15,7 +15,7 @@
 
             &nbsp;
 
-            <h6> Session time: {{start}}-{{end}} </h6>
+            <h6> Session time: {{format_date start}} - {{format_date end}} </h6>
 
             &nbsp;
             <h6> Hourly Rate: {{hourly_rate}} </h6>
@@ -26,6 +26,9 @@
             <div class="mt-5">
             {{{check_availability bookings max_bookings}}}
             </div>
+            <div id="message-box" class="text-danger"></div>
+
+            <div id="confirmation-messagebox" class="text-danger"></div>
 
             <div class="mt-5">
             {{#if bookings}}
@@ -36,4 +39,7 @@
             </div>
         </div>
     </div>
+
+    <script src="/js/booking.js"></script>
+    <script src="/js/confirm-booking.js"></script>
 </section>

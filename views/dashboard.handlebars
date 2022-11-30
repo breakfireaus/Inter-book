@@ -93,21 +93,35 @@
 <section>
     <div class="container-fluid">
         <div class="row p-3">
-            <div class="col-lg-6 align-items-center" style="border-style: solid; border-color: black">
-                {{#each bookings as |booking|}}
-                <div>
+            <div class="col-lg-6 align-items-center">
+         
+                {{#if bookingsForUserService }}
+                <h3>Bookings for your services:</h3>
+                <div id="confirmation-messagebox" class="text-danger"></div>
+                <ul class="list-group confirm-booking-list">
+                {{#each bookingsForUserService as |booking|}}
+                    {{#if booking.cancelled}}
+                        <li class="list-group-item text-muted">Service title: {{booking.title}} <br> Booking user: {{booking.user.first_name}} {{booking.user.last_name}} </li>
+                    {{else}}
+                        {{#if booking.confirmed}}
+                        <li class="list-group-item d-flex" data-toggle="tooltip" data-placement="top" data-html="true" title="Booking starts: {{format_date booking.start}} Booking Ends: {{format_date booking.end}}">{{booking.title}} <br> Booking user: {{booking.user.first_name}} {{booking.user.last_name}}  <span class="ml-auto text-success">Confirmed</span></li>
+                        {{else}}
+                        <li class="list-group-item d-flex" data-toggle="tooltip" data-placement="top" data-html="true" title="Booking starts: {{format_date booking.start}} Booking Ends: {{format_date booking.end}}">Service title: {{booking.title}} <br> Booking user: {{booking.user.first_name}} {{booking.user.last_name}} <button id="confirm" data-id="{{booking.booking_id}}" class="ml-auto btn btn-success">Confirm booking</button></li>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+                </ul>
 
-                </div>
                 {{else}}
                 <h3> No bookings to confirm 😿 </h3>
-                {{/each}}
+                {{/if}}
             </div>
 
             {{!--- Display sessions booked by the user ---}}
 
-            <div class="col-lg-6" style="border-style: solid; border-color: black ">
+            <div class="col-lg-6">
                 {{#if bookings }}
-                {{> booking-list }}
+                {{> dashboard-bookings }}
                 {{else}}
                 <h3> You have no current bookings 😿 </h3>
                 {{/if}}
@@ -117,4 +131,8 @@
 
 </section>
 
-<script src="/js/dashboard.js"></script>
+<script src="/js/create-service.js"></script>
+{{#if bookingsForUserService}}
+<script src="/js/confirm-booking.js"></script>
+{{/if}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
