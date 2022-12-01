@@ -20,6 +20,7 @@
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "seed": "node seeds/index.js"
+    "seed": "node seeds/index.js",
+    "clear-cache": "rm ics-files/*"
   }
 }
