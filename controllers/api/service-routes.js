@@ -4,6 +4,7 @@ const router = require("express").Router();
 const { Service, User, Booking, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
 const buildIcs = require("../../utils/ics-builder");
+const { existsSync } = require("fs");
 
 
 router.post("/create", withAuth, async (req, res) => {
@@ -160,15 +161,20 @@ router.get("/calendar/:id", async (req, res) => {
         }
 
         const icsFilePath = await buildIcs(serviceData);
+        
+        const fileDir = `${__dirname}/../../ics-files`;
+        
 
-        if (icsFilePath.error){
+        if (icsFilePath.error || !existsSync(fileDir + "/" + icsFilePath)){
             res.status(500).json({
-                message: "There was an issue building the ICS file"
+                message: "There was an issue building or serving the ICS file"
             });
         } else {
             console.log(icsFilePath);
+
+
             res.status(200).download(icsFilePath, {
-                root: `${__dirname}/../../ics-files`,
+                root: fileDir,
                 dotfiles: "deny",
             });
         }
