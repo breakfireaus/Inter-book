@@ -4,7 +4,7 @@
     <div class="card mt-4" id="service">
         <div class="card-body">
 
-            <h2 id="service-title" class="card-title" data-id="{{id}}">{{title}}</h2>
+            <h2 id="service-title" class="card-title" data-id="{{id}}" data-title="{{title}}">{{title}}</h2>
 
             <h5 class="card-subtitle mb-2 text-muted">
                 {{#each industries as |industry|}}
@@ -12,10 +12,11 @@
                 {{/each}}
             </h5>
             <p class="card-text"> {{ description }}</p>
-
+            &nbsp;
+            <button id="download-ics" class="btn btn-primary">Download calendar file</button>
             &nbsp;
 
-            <h6> Session time: {{format_date start}} - {{format_date end}} </h6>
+            <h6 class="mt-2"> Session time: {{format_date start}} - {{format_date end}} </h6>
 
             &nbsp;
             <h6> Hourly Rate: {{hourly_rate}} </h6>
@@ -41,5 +42,8 @@
     </div>
 
     <script src="/js/booking.js"></script>
+    <script src="/js/download-ics.js"></script>
+    {{#if bookings}}
     <script src="/js/confirm-booking.js"></script>
+    {{/if}}
 </section>

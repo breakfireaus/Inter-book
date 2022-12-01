@@ -1,8 +1,10 @@
 // http://url/api/service/*
 
 const router = require("express").Router();
-const { Service, User, Booking } = require("../../models");
+const { Service, User, Booking, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
+const buildIcs = require("../../utils/ics-builder");
+const { existsSync } = require("fs");
 
 
 router.post("/create", withAuth, async (req, res) => {
@@ -25,6 +27,10 @@ router.post("/create", withAuth, async (req, res) => {
         const validationObject = { ...req.body };
 
         // TODO: validation 
+        if (validationObject.title.includes("`")){
+            //Replace backticks with nothing
+            validationObject.title = validationObject.title.replace("`", "");
+        }
 
         const newService = await Service.create({ ...validationObject, user_id: req.session.user_id });
 
@@ -139,6 +145,50 @@ router.delete("/delete/:id", withAuth, async (req, res) => {
         console.error(err);
         res.status(500).json({
             message: "An internal server error occurred"
+        });
+    }
+});
+
+router.get("/calendar/:id", async (req, res) => {
+    try {
+        const serviceData = await Service.findByPk(req.params.id, {
+            include: [{
+                model: User
+            }]
+        });
+
+        if (!serviceData){
+            res.status(404).json({
+                message: `A service with ID ${req.params.id} could not be found`,
+            });
+            return;
+        }
+
+        const icsFilePath = await buildIcs(serviceData);
+        
+        const fileDir = `${__dirname}/../../ics-files`;
+        
+
+        if (icsFilePath.error || !existsSync(fileDir + "/" + icsFilePath)){
+            res.status(500).json({
+                message: "There was an issue building or serving the ICS file"
+            });
+        } else {
+            console.log(icsFilePath);
+
+
+            res.status(200).download(icsFilePath, {
+                root: fileDir,
+                dotfiles: "deny",
+            });
+        }
+
+
+
+    } catch (err) {
+        res.status(500).json({
+            message: "An internal server error occurred.",
+            err: err
         });
     }
 });
