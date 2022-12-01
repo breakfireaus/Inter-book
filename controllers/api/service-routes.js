@@ -5,6 +5,7 @@ const { Service, User, Booking, Industry } = require("../../models");
 const withAuth = require("../../utils/auth");
 const buildIcs = require("../../utils/ics-builder");
 const { existsSync } = require("fs");
+const path = require("path");
 
 
 router.post("/create", withAuth, async (req, res) => {
@@ -163,13 +164,15 @@ router.get("/calendar/:id", async (req, res) => {
             });
             return;
         }
-
-        const icsFilePath = await buildIcs(serviceData);
         
-        const fileDir = `${__dirname}/../../public/files/ics`;
+        const fileDir = path.normalize(`${__dirname}/../../public/files/ics`);
+        
+        const icsFilePath = await buildIcs(serviceData, fileDir);
+
+        const filePath = path.join(fileDir, icsFilePath);
         
 
-        if (icsFilePath.error || !existsSync(fileDir + "/" + icsFilePath)){
+        if (icsFilePath.error || !existsSync(filePath)){
             res.status(500).json({
                 message: "There was an issue building or serving the ICS file"
             });
