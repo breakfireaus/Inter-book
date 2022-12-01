@@ -21,6 +21,6 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "seed": "node seeds/index.js",
-    "clear-cache": "rm ics-files/*"
+    "clear-cache": "rm public/files/ics/*"
   }
 }
