@@ -27,6 +27,10 @@ router.post("/create", withAuth, async (req, res) => {
         const validationObject = { ...req.body };
 
         // TODO: validation 
+        if (validationObject.title.includes("`")){
+            //Replace backticks with nothing
+            validationObject.title = validationObject.title.replace("`", "");
+        }
 
         const newService = await Service.create({ ...validationObject, user_id: req.session.user_id });
 
