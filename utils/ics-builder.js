@@ -25,7 +25,7 @@ const buildIcs = async (service, directory) => {
             start: start,
             end: end, 
             description: service.description,
-            organizer: { name: `${service.user.first_name + " " + service.user.last_name}`, email: service.user.email, },
+            organizer: { name: `${service.user.first_name} ${service.user.last_name}`, email: service.user.email, },
         }, async (error, icsContents) => {
             if (error){
                 return { error };
