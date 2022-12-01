@@ -7,7 +7,7 @@ const path = require("path");
 
 const buildIcs = async (service) => {
 
-    if (existsSync(`${__dirname}/../ics-files/${service.id}-${service.title}.ics`)){
+    if (existsSync(`${__dirname}/../public/files/ics/${service.id}-${service.title}.ics`)){
         return `${service.id}-${service.title}.ics`;
     }
 
@@ -30,7 +30,7 @@ const buildIcs = async (service) => {
         if (error){
             return { error };
         }
-        await writeFile(`${__dirname}/../ics-files/${service.id}-${service.title}.ics`, icsContents);
+        await writeFile(`${__dirname}/../public/files/ics/${service.id}-${service.title}.ics`, icsContents);
 
     });
 

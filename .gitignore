@@ -106,4 +106,4 @@ dist
 # TernJS port file
 .tern-port
 
-ics-files/*
+public/files/ics/*

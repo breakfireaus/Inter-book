@@ -166,7 +166,7 @@ router.get("/calendar/:id", async (req, res) => {
 
         const icsFilePath = await buildIcs(serviceData);
         
-        const fileDir = `${__dirname}/../../ics-files`;
+        const fileDir = `${__dirname}/../../public/files/ics`;
         
 
         if (icsFilePath.error || !existsSync(fileDir + "/" + icsFilePath)){
