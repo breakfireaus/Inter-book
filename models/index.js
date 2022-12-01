@@ -4,6 +4,7 @@ const Service = require('./service');
 const User = require('./user');
 const UserIndustry = require('./userIndustry');
 
+//One user can make many services
 User.hasMany(Service, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE',
@@ -13,7 +14,7 @@ Service.belongsTo(User, {
   foreignKey: 'user_id',
 });
 
-//one user has many bookings
+//one user can make many bookings
 User.hasMany(Booking, {
   foreignKey: 'client_id',
   onDelete: 'CASCADE',
@@ -23,23 +24,6 @@ Booking.belongsTo(User, {
   foreignKey: 'client_id',
 });
 
-//one booking to one user
-// Booking.hasOne(User, {
-//   foreignKey: 'id',
-// });
-
-// User.belongsTo(Booking, {
-//   foreignKey: 'id',
-// });
-
-// //one booking to one service
-// Service.hasMany(Booking, {
-//   foreignKey: 'id',
-// });
-
-// Service.belongsTo(Booking, {
-//   foreignKey: 'id',
-// });
 //one service can have many booking
 Service.hasMany(Booking, {
   foreignKey: 'service_id',
