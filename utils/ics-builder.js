@@ -20,19 +20,20 @@ const buildIcs = async (service, directory) => {
         console.log(start);
         console.log(end);
 
-        ics.createEvent({
-            title: service.title,
-            start: start,
-            end: end, 
-            description: service.description,
-            organizer: { name: `${service.user.first_name} ${service.user.last_name}`, email: service.user.email, },
-        }, async (error, icsContents) => {
-            if (error){
-                return { error };
-            }
-            await writeFile(`../public/files/ics/${service.id}-${service.title}.ics`, icsContents);
+        let fileContents;
+        try{
+            fileContents = ics.createEvent({
+                title: service.title,
+                start: start,
+                end: end, 
+                description: service.description,
+                organizer: { name: `${service.user.first_name} ${service.user.last_name}`, email: service.user.email, },
+            });
+        } catch (err) {
+            throw new Error ("Failed to build ICS file");
+        }
 
-        });
+        await writeFile(path.join(directory, `${service.id}-${service.title}.ics`), fileContents.value);
     }
 
     
